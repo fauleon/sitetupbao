@@ -1,0 +1,68 @@
+<!-- templates/login.html -->
+
+{% extends "layout.html" %}
+
+{% block title %}Login - Área Privada{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="ponto-card">
+                <h1 class="text-center mb-4">Área Privada</h1>
+                
+                <!-- Mostra mensagens de erro, se houver -->
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ messages[0] }}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+
+                <form method="POST" action="{{ url_for('login') }}">
+                    {{ form.hidden_tag() }}
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Utilizador</label>
+                        {{ form.username(class="form-control", style="background-color: #333; border-color: var(--cor-borda); color: #fff;") }}
+                    </div>
+                    <div class="mb-4">
+                        <label for="password" class="form-label">Senha</label>
+                        {{ form.password(class="form-control", style="background-color: #333; border-color: var(--cor-borda); color: #fff;") }}
+                    </div>
+                    <div class="d-grid">
+                        {{ form.submit(class="btn btn-youtube") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+```html
+<!-- templates/privado.html -->
+
+{% extends "layout.html" %}
+
+{% block title %}Bem-vindo à Área Privada{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="text-center mb-4">Área Privada do TUPBAO</h1>
+    <p class="text-center fs-4 text-muted">Bem-vindo, {{ current_user.id }}!</p>
+
+    <div class="ponto-card mt-5">
+        <h2>Documentos do Templo</h2>
+        <p>Aqui, no futuro, você poderá ver e aceder aos ficheiros do Google Drive, como atas, calendários e documentos importantes.</p>
+        <!-- Exemplo de como um ficheiro do Google Drive poderia ser embutido -->
+        <!-- <iframe src="URL_DO_SEU_GOOGLE_DOC_EMBUTIDO" width="100%" height="600"></iframe> -->
+    </div>
+
+    <div class="ponto-card mt-4">
+        <h2>Aniversariantes do Mês</h2>
+        <p>A lista de aniversariantes (PDF ou Planilha) do Google Drive aparecerá aqui.</p>
+        <!-- <a href="LINK_PARA_DOWNLOAD_DO_PDF" class="btn btn-youtube">Baixar PDF</a> -->
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+
+{# Define o título da página na aba do navegador #}
+{% block title %}{{ linha.linha_nome }} - Pontos{% endblock %}
+
+{# Define a classe de tema para o <body>, que será usada pelo layout.html #}
+{% block body_class %}
+    {% if 'Ogum' in linha.linha_nome %}
+        theme-ogum
+    {% elif 'Preto Velho' in linha.linha_nome or 'Preta Velha' in linha.linha_nome %}
+        theme-preto-velho
+    {% endif %}
+{% endblock %}
+
+
+{# O conteúdo principal da página #}
+{% block content %}
+<div class="container my-5">
+    <h1 class="text-center mb-5" style="font-size: 3rem;">{{ linha.linha_nome }}</h1>
+
+    {# Loop para cada sub-categoria (ex: 'Pontos de Abertura', 'Pontos de Subida') #}
+    {% for sub_cat in linha.sub_categorias %}
+        <h3 class="mb-4 mt-5 border-bottom border-secondary pb-2" style="font-size: 2rem;">{{ sub_cat.titulo }}</h3>
+        
+        <div class="row">
+            {% if sub_cat.pontos %}
+                {# Loop para cada ponto dentro da sub-categoria #}
+                {% for ponto in sub_cat.pontos %}
+                    <div class="col-lg-6">
+                        <div class="ponto-card">
+                            <h5>{{ ponto.nome }}</h5>
+                            <p class="toque">Toque: {{ ponto.toque if ponto.toque else 'Não especificado' }}</p>
+
+                            {% if ponto.youtube_id %}
+                                <a href="https://www.youtube.com/watch?v={{ ponto.youtube_id }}" class="btn btn-youtube" target="_blank">
+                                    Ouvir no YouTube
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="text-muted">Nenhum ponto encontrado nesta sub-categoria.</p>
+            {% endif %}
+        </div>
+    {% endfor %}
+
+</div>
+{% endblock %}

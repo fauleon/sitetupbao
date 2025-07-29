@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Apenas UMA definição do bloco title, aqui no <title> -->
+    <title>{% block title %}TUPBAO{% endblock %}</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body class="{% block body_class %}{% endblock %}">
+    <!-- A animação de fundo -->
+    <div id="particles-js"></div>
+
+    <!-- Barra de Navegação -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="{{ url_for('index') }}">
+                <img src="{{ url_for('static', filename='images/logo-tupbao.png') }}" alt="Logo TUPBAO" style="height: 90px; margin-right: 15px;">
+                <span>TUPBAO</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav ms-auto align-items-center">
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="pontosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Pontos</a>
+                        <ul class="dropdown-menu" aria-labelledby="pontosDropdown">
+                            <li><h6 class="dropdown-header">Pontos de Entidades</h6></li>
+                            {% for linha in TODAS_LINHAS_ENTIDADES %}{% if linha.linha_nome %}<li><a class="dropdown-item" href="{{ url_for('page_linha_entidade', linha_slug=linha.linha_slug) }}">{{ linha.linha_nome }}</a></li>{% endif %}{% endfor %}
+                            <li><hr class="dropdown-divider"></li>
+                            <li><h6 class="dropdown-header">Pontos de Orixás</h6></li>
+                            {% for linha in TODAS_LINHAS_ORIXAS %}{% if linha.linha_nome %}<li><a class="dropdown-item" href="{{ url_for('page_linha_orixa', linha_slug=linha.linha_slug) }}">{{ linha.linha_nome }}</a></li>{% endif %}{% endfor %}
+                            <li><hr class="dropdown-divider"></li>
+                            <li><h6 class="dropdown-header">Pontos de Rituais</h6></li>
+                            {% for linha in TODAS_LINHAS_RITUAIS %}{% if linha.linha_nome %}<li><a class="dropdown-item" href="{{ url_for('page_linha_ritual', linha_slug=linha.linha_slug) }}">{{ linha.linha_nome }}</a></li>{% endif %}{% endfor %}
+                        </ul>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('galeria_index') }}">Galeria</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Agenda Oficial</a>
+                    </li>
+                    
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="trabalhosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Trabalhos</a>
+                        <ul class="dropdown-menu" aria-labelledby="trabalhosDropdown">
+                            <li><a class="dropdown-item" href="#">Cura e Benzimento</a></li>
+                            <li><a class="dropdown-item" href="#">Ações Sociais</a></li>
+                            <li><a class="dropdown-item" href="#">Mãos que Ajudam</a></li>
+                            <li><a class="dropdown-item" href="#">Aulas de Curimba</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Privado</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Conteúdo Principal da Página -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    
+    <!-- Rodapé -->
+    <footer class="text-center py-4 mt-auto">
+        <p>© {{ year }} TUPBAO. A melodia do axé no ritmo do futuro.</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="{{ url_for('static', filename='js/particles-config.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!-- templates/galeria/galeria_index.html -->
+
+{% extends "layout.html" %}
+
+{% block title %}Galeria de Fotos{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="text-center mb-5" style="font-size: 3rem;">Galeria de Fotos</h1>
+    <div class="row">
+        {% for album in albuns %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <a href="{{ url_for('ver_album', album_slug=album.slug) }}" class="album-card-link">
+                <div class="card album-card">
+                    <img src="{{ url_for('static', filename='images/galeria/' + album.slug + '/' + album.imagem_capa) }}" class="card-img-top" alt="Capa do álbum {{ album.titulo }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ album.titulo }}</h5>
+                        <p class="card-text">{{ album.descricao }}</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+```html
+<!-- templates/galeria/album_fotos.html -->
+
+{% extends "layout.html" %}
+
+{% block title %}{{ album.titulo }}{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="text-center mb-5" style="font-size: 3rem;">{{ album.titulo }}</h1>
+
+    {% if album.imagens %}
+        <div class="photo-grid">
+            {% for imagem in album.imagens %}
+                <div class="photo-item">
+                    <img src="{{ url_for('static', filename='images/galeria/' + album.slug + '/' + imagem) }}" alt="Foto do álbum {{ album.titulo }}" loading="lazy">
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-center text-muted fs-4">Ainda não há fotos neste álbum.</p>
+    {% endif %}
+</div>
+{% endblock %}
