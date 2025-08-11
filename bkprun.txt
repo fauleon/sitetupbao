@@ -1,0 +1,21 @@
+# run.py
+import sys
+import os
+
+# --- CORREÇÃO DEFINITIVA PARA O CAMINHO DO PROJETO ---
+# Este bloco de código é a forma correta de garantir que o Python
+# encontre a sua pasta 'app' quando você executa 'python3 run.py'.
+# Ele deve estar APENAS no ficheiro de arranque.
+project_home = os.path.dirname(os.path.realpath(__file__))
+if project_home not in sys.path:
+    sys.path.insert(0, project_home)
+# --- FIM DA CORREÇÃO ---
+
+# Agora que o caminho está garantido, podemos importar o 'app' com segurança
+from app import create_app
+
+app = create_app()
+
+if __name__ == "__main__":
+    print(">>> Servidor a iniciar em http://127.0.0.1:5000 <<<")
+    app.run(host='127.0.0.1', port=5000, debug=True)

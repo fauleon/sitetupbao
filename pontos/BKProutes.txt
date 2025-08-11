@@ -1,0 +1,931 @@
+# app/pontos/routes.py
+# !!! ARQUIVO GERADO AUTOMATICAMENTE !!!
+# Para atualizar, edite o arquivo CSV e execute o script 'gerar_routes.py'.
+# NÃO EDITE ESTE ARQUIVO DIRETAMENTE.
+
+from flask import Blueprint, render_template, abort
+
+# CORREÇÃO AQUI: Ajustado o caminho para '../templates/pontos' para funcionar corretamente com a estrutura de Blueprints.
+pontos_bp = Blueprint('pontos', __name__, template_folder='../templates/pontos')
+
+# ==============================================================================
+# ESTRUTURAS DE DADOS GERADAS A PARTIR DO CSV
+# ==============================================================================
+
+# ---------------------------------
+# PONTOS DE ENTIDADES
+# ---------------------------------
+DADOS_PONTOS_ENTIDADES = [
+    {
+        "linha_nome": "Esquerda",
+        "linha_slug": "esquerda",
+        "sub_categorias": [
+            {
+                "titulo": "Ogum",
+                "pontos": [
+                    {"nome": "Pedimos licença a Zambi", "toque": "Samba", "youtube_id": "bA2X-co8W7o"},
+                    {"nome": "Dono do dia", "toque": "Congo", "youtube_id": "iq5A4tGOZ6M"},
+                    {"nome": "Abra a minha estrada", "toque": "Congo", "youtube_id": "1WFD0jkwDv4"},
+                    {"nome": "General da Umbanda", "toque": "Congo", "youtube_id": "2NDSs058_cY"},
+                    {"nome": "Ogum Xoroke", "toque": "Congo", "youtube_id": "gkwRb9SX6P0"},
+                    {"nome": "Quando Ogum partiu pra Guerra", "toque": "Congo", "youtube_id": "xsNB5bxl6rw"},
+                    {"nome": "Armas do Ouro de Oxum", "toque": "Congo", "youtube_id": "tr6Fs5loibM"},
+                    {"nome": "Ogum me disse que dançar nago é bom", "toque": "Congo", "youtube_id": "qxqwuuIUw9c"},
+                    {"nome": "A Umbanda Clareoou", "toque": "Samba", "youtube_id": "FRwk8vpRH9g"},
+                    {"nome": "Estava na beira da praia", "toque": "Samba", "youtube_id": "mACNo-Da3qA"},
+                    {"nome": "Filho de Ogum", "toque": "Samba", "youtube_id": "DH19RjHGuiY"},
+                    {"nome": "Subida de Ogum", "toque": "Ijexá", "youtube_id": "RM8-M_vOZRA"}
+                ]
+            },
+            {
+                "titulo": "Oxum",
+                "pontos": [
+                    {"nome": "Um Balaio de Amor", "toque": "Ijexá/ Congo", "youtube_id": "XOLwoqFVpU0"},
+                    {"nome": "Canta Oxum", "toque": "Samba/ Ijexá", "youtube_id": "7X4V3fg4-Ns"},
+                    {"nome": "Aguas de Oxum", "toque": "Ijexá", "youtube_id": "W7S8x02nvXM"},
+                    {"nome": "Mamãe Oxum estava sentada na pedreira", "toque": "Ijexá", "youtube_id": "sYRX_aNBte0"},
+                    {"nome": "Eu vi Mamãe Oxum na caxoeira", "toque": "Ijexá", "youtube_id": "1VtgdeaAVNk"},
+                    {"nome": "Mamãe Oxum salve a sua cachoeira", "toque": "Ijexá", "youtube_id": "7f1L4N1ez0Q"},
+                    {"nome": "Foi na beira do rio", "toque": "Ijexá", "youtube_id": "JN8KgP4bsXU"},
+                    {"nome": "Oxúm Emoriô", "toque": "Ijexá/ Samba", "youtube_id": "yy1nY9fAm7g"},
+                    {"nome": "A cachoeira da Mamãe Oxum", "toque": "Ijexá", "youtube_id": "no7bjvYSmAI"}
+                ]
+            },
+            {
+                "titulo": "Esquerda",
+                "pontos": [
+                    {"nome": "Ela é Feiticeira, Ela é poderosa ela tem Axé", "toque": "Samba", "youtube_id": "5KgpyT5ccy8"},
+                    {"nome": "Pombogira não pode faltar", "toque": "Congo", "youtube_id": "41e-Bbr6QbE"},
+                    {"nome": "Que Linda Risada", "toque": "Samba", "youtube_id": "YGSMGe7VR88"},
+                    {"nome": "Sacode o pó", "toque": "Samba", "youtube_id": "WUXP2KZ4pSw"},
+                    {"nome": "Morada de Rosa Caveira", "toque": "Barra Vento", "youtube_id": "UmV1mYSLE4w"},
+                    {"nome": "Fui na Calunga não pude entrar", "toque": "Barra Vento", "youtube_id": "noV0BdlNE7k"},
+                    {"nome": "Nasceu uma Rosa", "toque": "Barra Vento", "youtube_id": "HwZjhOxbvyc"},
+                    {"nome": "Do luxo ao lixo", "toque": "Barra Vento", "youtube_id": "QZmn8J23QEA"},
+                    {"nome": "Madrugada ê, madrugada â", "toque": "Barra Vento", "youtube_id": "RKgvZ_85SEM"},
+                    {"nome": "Maria Mulambo, esse agrado é pra você", "toque": "Congo", "youtube_id": "Btx6oT1fx4I"},
+                    {"nome": "Que Mulher é aquela?", "toque": "Congo", "youtube_id": "7227249761542343941"},
+                    {"nome": "Mas que caminho tão escuro", "toque": "Congo", "youtube_id": "7295768096814402822"},
+                    {"nome": "Cova 66", "toque": "Barra Vento", "youtube_id": "A1ZOgSA7lMA"},
+                    {"nome": "Foi condenada pela lei da inquisição", "toque": "Samba", "youtube_id": "PDCkd4QSYuM"},
+                    {"nome": "A Catatumba", "toque": "Samba", "youtube_id": "x8ulskjl1Ck"},
+                    {"nome": "7 Saias ta chegando", "toque": "Samba", "youtube_id": "kqYsVYrGn0U"},
+                    {"nome": "Caixão de Veludo", "toque": "Samba", "youtube_id": "vRizPsj0_ec"},
+                    {"nome": "No terreiro chegou", "toque": "Barra Vento", "youtube_id": "-b46D4bbi-c"},
+                    {"nome": "Tremeu Tremeu", "toque": "Congo", "youtube_id": "LByDfIiTCeI"},
+                    {"nome": "Sentinela do Amor", "toque": "Barra Vento", "youtube_id": "T68I9wwxcSM"},
+                    {"nome": "Ela é Mojubá", "toque": "Samba", "youtube_id": "v_6pz8PjTVg"},
+                    {"nome": "Seu caldeirão tem feitiçaria", "toque": "Congo", "youtube_id": ""},
+                    {"nome": "Bem que eu lhe avisei pra você não jogar comigo", "toque": "Samba", "youtube_id": "BEFN05MAJkk"},
+                    {"nome": "Pombogira Cigana de Fé", "toque": "Samba", "youtube_id": "qpP6JPUbPBM"},
+                    {"nome": "Joguei no Rei e parei no As", "toque": "Samba", "youtube_id": ""},
+                    {"nome": "Olha que menina Linda", "toque": "Ijexá", "youtube_id": "7KQJnE7aee0"},
+                    {"nome": "Ela pisa devagar", "toque": "Samba", "youtube_id": "MdAdJTT7BbE"},
+                    {"nome": "Chorei, Chorei", "toque": "Samba", "youtube_id": "0gU5AMgFNnA"},
+                    {"nome": "Pombogira Menina, Linda como uma Flor", "toque": "Samba", "youtube_id": "fneK30CyxLI"},
+                    {"nome": "Ele vem vindo", "toque": "Barra Vento", "youtube_id": "ZlKJuqbjd3U"},
+                    {"nome": "Soltaram o Bodê Preto", "toque": "Samba", "youtube_id": "IPgZ713V9CI"},
+                    {"nome": "Tata Caveira me chamou na Calunga", "toque": "Samba", "youtube_id": "NVUGedxR3jY"},
+                    {"nome": "O sino deu 12 badalada", "toque": "Congo", "youtube_id": "L9-hnyAX7NU"},
+                    {"nome": "00:00 em ponto", "toque": "Congo", "youtube_id": "P1s_kVbekG0"},
+                    {"nome": "Se hoje eu tenho caminhos, agradeço a você", "toque": "Samba", "youtube_id": "3ezWLPv9NCU"},
+                    {"nome": "Encontrei um Homem Estranho", "toque": "Samba", "youtube_id": "eFhFANmozeA"},
+                    {"nome": "História que aconteceu comigo", "toque": "Congo", "youtube_id": "7DgCLUc-f2Q"},
+                    {"nome": "Quem ilumina a noite", "toque": "Congo", "youtube_id": "7295044900607839494"},
+                    {"nome": "Foi sob a Lua", "toque": "Samba", "youtube_id": "CDudbYKam1s"},
+                    {"nome": "Sem Sete Luas não sou nada", "toque": "Samba", "youtube_id": "PZu_UsLCTaE"},
+                    {"nome": "Quem fez essa cova", "toque": "Samba", "youtube_id": ""},
+                    {"nome": "La na Calunga avistei um homem", "toque": "Congo", "youtube_id": "mi3-CRIl_0U"},
+                    {"nome": "No corredor do Cemitério", "toque": "Congo", "youtube_id": "20rLj7hcjDU"},
+                    {"nome": "Sua Cova é Funda", "toque": "Barra Vento", "youtube_id": "0eIBUPuogHw"},
+                    {"nome": "Quando eu passei naquela estrada", "toque": "Samba", "youtube_id": "qLzn6zViOm4"},
+                    {"nome": "A lua brilhou, anoiteceu", "toque": "Congo", "youtube_id": ""},
+                    {"nome": "Pisa Certo Yaô", "toque": "Congo", "youtube_id": "1U1csh97TF8"},
+                    {"nome": "Ventou no Canavial", "toque": "Congo", "youtube_id": "e_blFzt6Hwk"},
+                    {"nome": "Luar Luar (ESTÁ EM UMA PARTE DO VIDEO)", "toque": "Samba", "youtube_id": "fMutL_1MDL0"},
+                    {"nome": "Eu vi um homem no meio da rua", "toque": "Congo", "youtube_id": "7308059059515706629"},
+                    {"nome": "No Cemitério, lado esquerdo de uma Tumba", "toque": "Barra Vento", "youtube_id": "isFsvM1joqk"},
+                    {"nome": "Deu um clarão na Encruzilhada", "toque": "Samba", "youtube_id": "efJHImXVjoI"},
+                    {"nome": "Ô Luar Ô Luar", "toque": "Samba", "youtube_id": "zpag2v8ZjP4"},
+                    {"nome": "Deu Meia Noite na terra e no Mar", "toque": "Congo", "youtube_id": "b4IjfSQ_q9M"},
+                    {"nome": "Se tem tronco no caminho", "toque": "Samba", "youtube_id": "p0mivxFafxE"},
+                    {"nome": "Eu passei na casa do moço", "toque": "Samba", "youtube_id": "5DCTuI_-dWU"},
+                    {"nome": "Tambor bateu a meia noite", "toque": "Congo", "youtube_id": "7177106343805865222"},
+                    {"nome": "Cinturação de Ferro", "toque": "Congo", "youtube_id": "7263207210568715525"},
+                    {"nome": "Xangô quem batizou", "toque": "Congo", "youtube_id": "7312512298222947589"},
+                    {"nome": "Qua qua qua qua", "toque": "Congo", "youtube_id": "faP5T2yDrok"},
+                    {"nome": "Escorreguei na lama", "toque": "Congo", "youtube_id": "C0DOTojKdZo"},
+                    {"nome": "Leva pro Lodo minha dor", "toque": "Congo", "youtube_id": "N-LfTdNsge4"},
+                    {"nome": "Pedra de Sal, pedra de Sal é Salgueiro", "toque": "Barra Vento", "youtube_id": ""},
+                    {"nome": "Ele pulou brasa, ele pulou a porteira", "toque": "Barra Vento", "youtube_id": "Jr5UztkVLms"},
+                    {"nome": "Vi um menino sentado na encruza", "toque": "Congo", "youtube_id": "Dsb0e5OHPcg"},
+                    {"nome": "Eu vi moço bonito/ Mirim Porteira", "toque": "Samba", "youtube_id": "NEsm4m9EbhY"},
+                    {"nome": "Não mexe comigo não", "toque": "Ijexá", "youtube_id": "xzwzrvKkk88"},
+                    {"nome": "Eu vou dar o seu nome pra Exu Mirim", "toque": "Barra Vento", "youtube_id": "ps-dVbaZezg"},
+                    {"nome": "Eu sou pequenininho", "toque": "Samba", "youtube_id": "eS9p9vUG4Cg"},
+                    {"nome": "Casa de Lei", "toque": "Ijexá", "youtube_id": ""},
+                    {"nome": "Louvar o Povo da Terra de Ganga", "toque": "Congo", "youtube_id": "7374077692028783877"},
+                    {"nome": "Povo da Terra de Ganga/ Boa Noite, Emojubá", "toque": "Congo", "youtube_id": ""},
+                    {"nome": "A Sua Casa Não Tem Parede / Deu Meia Noite / Lá na Encruza", "toque": "Congo", "youtube_id": "0pk1d2CkGVM"},
+                    {"nome": "É uma casa de Pombo/ Bafafá na Encruzilhada", "toque": "Congo", "youtube_id": "7pR_7VYhfwM"},
+                    {"nome": "Velório na esquerda", "toque": "Congo", "youtube_id": "_tQt0Y4mpGU"},
+                    {"nome": "Calunga ê Calunga â", "toque": "Barra Vento", "youtube_id": "7310376109114199302"},
+                    {"nome": "Na casa de Exu tem Macumba todo dia", "toque": "Congo", "youtube_id": "7281396531352145158"},
+                    {"nome": "Saudação a Tranca Ruas e Rainha Pombagira", "toque": "Congo", "youtube_id": "7lx0RLijCG8"},
+                    {"nome": "Quem viu o Sol se esconder", "toque": "Samba", "youtube_id": "cuK1yU-dIwM"},
+                    {"nome": "Sequência - Canto com alterações", "toque": "Barra Vento", "youtube_id": "S4-kb-UA_KA"},
+                    {"nome": "Galo canta, cobra pia", "toque": "Barra Vento", "youtube_id": "4raQV73iHxo"},
+                    {"nome": "Na Calada da Noite/ A Demanda vai virar poeira", "toque": "Congo", "youtube_id": "ERZPOrJGxgg"},
+                    {"nome": "Festa das Marias", "toque": "Samba", "youtube_id": "dgeDdpE43S0"},
+                    {"nome": "Mulheres de Ganga", "toque": "Congo", "youtube_id": "eNmGxrnASUE"},
+                    {"nome": "O sino da Igreja batia", "toque": "Congo", "youtube_id": "7319494157880282374"},
+                    {"nome": "7 Saias chegou", "toque": "Samba", "youtube_id": "7276561028027075845"}
+                ]
+            }
+        ]
+    },
+    {
+        "linha_nome": "Boiadeiro",
+        "linha_slug": "boiadeiro",
+        "sub_categorias": [
+            {
+                "titulo": "Ogum",
+                "pontos": [
+                    {"nome": "Pedimos licença a Zambi", "toque": "SAMBA", "youtube_id": "bA2X-co8W7o"},
+                    {"nome": "Estava na beira da praia", "toque": "SAMBA", "youtube_id": "mACNo-Da3qA"},
+                    {"nome": "Deus da Guerra", "toque": "CONGO", "youtube_id": "llLgpWo9wDo"},
+                    {"nome": "General da Umbanda", "toque": "CONGO", "youtube_id": "2NDSs058_cY"},
+                    {"nome": "Ogum Xoroke", "toque": "CONGO", "youtube_id": "gkwRb9SX6P0"},
+                    {"nome": "Quando Ogum partiu pra Guerra", "toque": "CONGO", "youtube_id": "xsNB5bxl6rw"},
+                    {"nome": "Armas do Ouro de Oxum", "toque": "CONGO", "youtube_id": "tr6Fs5loibM"},
+                    {"nome": "Ogum me disse que dançar nago é bom", "toque": "CONGO", "youtube_id": "qxqwuuIUw9c"},
+                    {"nome": "Abra a minha estrada", "toque": "CONGO", "youtube_id": "1WFD0jkwDv4"},
+                    {"nome": "Selei seu Cavalo", "toque": "CONGO", "youtube_id": "dfF6efZlnZY"}
+                ]
+            },
+            {
+                "titulo": "Oya",
+                "pontos": [
+                    {"nome": "Tempo", "toque": "IJEXÁ/ NAGÔ", "youtube_id": "Z_LzWqAWyHo"},
+                    {"nome": "Oya Mulher Forte", "toque": "IJEXÁ", "youtube_id": "bTDMXNJDUQM"},
+                    {"nome": "Vem na força da Fé", "toque": "NAGÔ", "youtube_id": "HrzgKJBsrzU"},
+                    {"nome": "Oia do Tempo Logunan vem Saravar", "toque": "CONGO", "youtube_id": "uzGa5x3zogc"},
+                    {"nome": "Gira no Tempo", "toque": "BARRA VENTO", "youtube_id": "y2jndimE8yw"},
+                    {"nome": "Gira seu Tempo", "toque": "BARRA VENTO", "youtube_id": "s0g-Spj18bQ"}
+                ]
+            },
+            {
+                "titulo": "Iansã",
+                "pontos": [
+                    {"nome": "Dona dos Ventos", "toque": "Samba", "youtube_id": "VpxWrWs8oBY"},
+                    {"nome": "Me protegi no Bambuzal de Iansã", "toque": "Samba", "youtube_id": "IYOCxbFxBWw"},
+                    {"nome": "Eu vi Iansa Menina", "toque": "Samba", "youtube_id": ""},
+                    {"nome": "O Iansa Menina", "toque": "Congo", "youtube_id": "ymRHUMnAfzg"},
+                    {"nome": "A Guerreira vai Reinar", "toque": "Congo", "youtube_id": "LeeLdl3eK0w"},
+                    {"nome": "Ela é Oya", "toque": "Congo", "youtube_id": "VUVIDNZKCe0"},
+                    {"nome": "Quando Oya me chamou", "toque": "Barra Vento", "youtube_id": "IgQvlYXS4gQ"},
+                    {"nome": "Meu pai que barulho é esse", "toque": "Barra Vento", "youtube_id": "JjOJm7pbPxk"},
+                    {"nome": "Olha Eu", "toque": "Barra Vento", "youtube_id": "VHmQPaxolX0"},
+                    {"nome": "É la de cima que eles vem chegando", "toque": "Congo", "youtube_id": ""},
+                    {"nome": "Boiadeiro vai Laçar", "toque": "BARRA VENTO", "youtube_id": "-G_4RCnHYUk"},
+                    {"nome": "SEQ. A cancela/ A minha boiada/ Quem vem lá", "toque": "SAMBA", "youtube_id": ""},
+                    {"nome": "Chapéu de Couro", "toque": "SAMBA", "youtube_id": "bcT1lTyEbnA"},
+                    {"nome": "Chegada de Boiadeiro", "toque": "SAMBA", "youtube_id": "S4RFWBOPJRQ"},
+                    {"nome": "Oração de Boiadeiro", "toque": "CONGO", "youtube_id": "N4UfDfShpT0"},
+                    {"nome": "Eu andei andei, por esse mundo de Deus", "toque": "BARRA VENTO", "youtube_id": ""},
+                    {"nome": "Meu Boi bebeu, lá no bebedouro", "toque": "BARRA VENTO", "youtube_id": ""},
+                    {"nome": "Firmei meu Ponto na Porteira do Curral", "toque": "IJEXÁ", "youtube_id": "rdckcyKBD0w"},
+                    {"nome": "De lá vem vindo", "toque": "CONGO", "youtube_id": "3AQhBQ5X8GM"},
+                    {"nome": "Oração de Boiadeiro", "toque": "CONGO", "youtube_id": "N4UfDfShpT0"},
+                    {"nome": "Chamada de Boiadeiro", "toque": "NAGÔ", "youtube_id": ""},
+                    {"nome": "Arrasta essa sandalia ae", "toque": "SAMBA", "youtube_id": "6I_1IJdRBeA"},
+                    {"nome": "Boia Janeiro", "toque": "IJEXÁ", "youtube_id": "U_fWCkyDDNs"},
+                    {"nome": "Xetrue Xetruá", "toque": "IJEXÁ", "youtube_id": "zDNeLLEVQM4"},
+                    {"nome": "Zé do Laço", "toque": "SAMBA", "youtube_id": "qz4cBHU_avI"},
+                    {"nome": "Eu só vim aqui porque fui chamado", "toque": "NAGÔ", "youtube_id": "NML7zZcs5BM"},
+                    {"nome": "Aparei minha roseira", "toque": "BARRA VENTO", "youtube_id": "CShr9wZQAzk"},
+                    {"nome": "Eu tenho meu chápeu de couro", "toque": "BARRA VENTO", "youtube_id": "joFmcR9BNFY"},
+                    {"nome": "Boiadeiro Solta Moita", "toque": "BARRA VENTO", "youtube_id": ""},
+                    {"nome": "Chapeu de Couro/ Ponta de Laço", "toque": "BARRA VENTO", "youtube_id": "gIxDSnNJOp0"},
+                    {"nome": "Meu sertão é alto", "toque": "BARRA VENTO", "youtube_id": "5rZGT3u6iGA"},
+                    {"nome": "Foi nesse passo que eu sai da minha aldeia", "toque": "IJEXÁ", "youtube_id": "6L4YDOg8Z_4"},
+                    {"nome": "Eu vou mostrar meu Laço", "toque": "IJEXÁ", "youtube_id": "N_-6PSHbLPc"},
+                    {"nome": "Cadê minha corda de laçar meu boi", "toque": "CONGO", "youtube_id": "M_M-DmAJwoU"},
+                    {"nome": "Pega o berrante e chama sua boiada", "toque": "SAMBA", "youtube_id": "KNJcP7jFD0g"},
+                    {"nome": "Ascendi uma vela", "toque": "SAMBA", "youtube_id": ""},
+                    {"nome": "Boa noite meu senhores", "toque": "CONGO", "youtube_id": "iCcs9shlx08"},
+                    {"nome": "Boiadeiro meu amigo leal", "toque": "NAGÔ", "youtube_id": "99h1kmRvYzM"},
+                    {"nome": "Pedrinha miudinha", "toque": "CONGO", "youtube_id": "TFqmhkRLPrQ"},
+                    {"nome": "Com seu Chapéu de Coro, com seu Laço na mão", "toque": "CONGO", "youtube_id": "hdqgaEhIWhQ"},
+                    {"nome": "Ele veio pelo rio de conta", "toque": "BARRA VENTO", "youtube_id": "d8OSbqPZtKw"},
+                    {"nome": "Seu Boiadeiro que horas você chegou", "toque": "SAMBA", "youtube_id": "lNaBGt9_n00"},
+                    {"nome": "Seu laço é de couro", "toque": "CONGO", "youtube_id": "tu8jr-as5EE"},
+                    {"nome": "Firmeza de Boiadeiro", "toque": "IJEXÁ", "youtube_id": "wto1__Yhm04"},
+                    {"nome": "Getruê, Getrua Boiadeiro", "toque": "IJEXÁ", "youtube_id": ""},
+                    {"nome": "Boiadeiro Mensageiro da Jurema", "toque": "CONGO", "youtube_id": ""},
+                    {"nome": "Quero meu Boi", "toque": "NAGÔ", "youtube_id": "GtM5QjGnN9Y"},
+                    {"nome": "Mestre Boiadeiro", "toque": "BARRA VENTO", "youtube_id": "QoUa59CrjIs"},
+                    {"nome": "Boiadeiro", "toque": "BARRA VENTO", "youtube_id": ""},
+                    {"nome": "No Pé da Juremeira", "toque": "BARRA VENTO", "youtube_id": "mwWy0d_f-Bs"},
+                    {"nome": "Abelha que faz o mel", "toque": "CONGO", "youtube_id": "yq7I9iq0Jfk"},
+                    {"nome": "Seu boiadeiro por aqui choveu", "toque": "CONGO", "youtube_id": "1_V42R6YYGI"},
+                    {"nome": "Cho cho cho passarinho", "toque": "SAMBA", "youtube_id": "8bVILVAA8u8"},
+                    {"nome": "SUBIDA - Acabou o samba agora", "toque": "SAMBA", "youtube_id": "OmvIGqFbubo"},
+                    {"nome": "SUBIDA - É Hora", "toque": "NAGÔ", "youtube_id": "NlqCME_4Ndg"}
+                ]
+            }
+        ]
+    },
+    {
+        "linha_nome": "Caboclos",
+        "linha_slug": "caboclos",
+        "sub_categorias": [
+            {
+                "titulo": "Ogum",
+                "pontos": [
+                    {"nome": "Pedimos licença a Zambi", "toque": "Samba", "youtube_id": "bA2X-co8W7o"},
+                    {"nome": "Quem está de Ronda?", "toque": "Samba", "youtube_id": "J4ler5xOfnM"},
+                    {"nome": "A Umbanda Clareoou", "toque": "Samba", "youtube_id": "FRwk8vpRH9g"},
+                    {"nome": "Estava na beira da praia", "toque": "Samba", "youtube_id": "mACNo-Da3qA"},
+                    {"nome": "Filho de Ogum", "toque": "Samba", "youtube_id": "DH19RjHGuiY"},
+                    {"nome": "Sou filho de Naruê", "toque": "Samba", "youtube_id": "U5dxe8FWF6E"},
+                    {"nome": "Eu não seria nada", "toque": "Samba", "youtube_id": "IRlj1yCv7_k"},
+                    {"nome": "Mandei fazer um Capacete de Penas", "toque": "Samba", "youtube_id": "StVR3e9uh7A"},
+                    {"nome": "Ogum Cavaleiro da Lua", "toque": "Samba", "youtube_id": "lke5O47AWZo"},
+                    {"nome": "Sua coroa de ouro é Mariô", "toque": "Samba", "youtube_id": "PFKDA3SPcWQ"},
+                    {"nome": "Quem me dera Ogum", "toque": "Samba", "youtube_id": "LfUl2ba5QYk"},
+                    {"nome": "Ogum não devia beber", "toque": "Samba", "youtube_id": "nQLoYoxP1-Q"},
+                    {"nome": "Dono do dia", "toque": "Congo", "youtube_id": "iq5A4tGOZ6M"},
+                    {"nome": "Abra a minha estrada", "toque": "Congo", "youtube_id": "1WFD0jkwDv4"},
+                    {"nome": "General da Umbanda", "toque": "Congo", "youtube_id": "2NDSs058_cY"},
+                    {"nome": "Ogum Xoroke", "toque": "Congo", "youtube_id": "gkwRb9SX6P0"},
+                    {"nome": "Guerreiro Santo", "toque": "Congo", "youtube_id": ""},
+                    {"nome": "Quando Ogum partiu pra Guerra", "toque": "Congo", "youtube_id": "xsNB5bxl6rw"},
+                    {"nome": "Armas do Ouro de Oxum", "toque": "Congo", "youtube_id": "tr6Fs5loibM"},
+                    {"nome": "Ogum me disse que dançar nago é bom", "toque": "Congo", "youtube_id": "qxqwuuIUw9c"},
+                    {"nome": "Subida de Ogum", "toque": "Ijexá", "youtube_id": "RM8-M_vOZRA"},
+                    {"nome": "Mãe Oba", "toque": "Barra Vento", "youtube_id": "iOW7OLILdAY"},
+                    {"nome": "Ela traz conhecimento", "toque": "Barra Vento", "youtube_id": "9FtOqCLM7lQ"},
+                    {"nome": "Ponto de Obá", "toque": "Congo", "youtube_id": "tF4TeFRX6PY"},
+                    {"nome": "Gira no terreiro ó Minha Mãe Obá", "toque": "Samba", "youtube_id": "GPsN2sGA-YE"},
+                    {"nome": "A benção meu pai a Benção", "toque": "Samba", "youtube_id": "7205671437556796678"},
+                    {"nome": "Meu Pai Oxóssi mora na beira das Matas", "toque": "Samba", "youtube_id": ""},
+                    {"nome": "Não se mexe nas Flechas de Oxóssi", "toque": "Samba", "youtube_id": "bEg5esE1t-w"},
+                    {"nome": "Seu Saiote é Carijó", "toque": "Samba", "youtube_id": "ujrhU87N0-o"},
+                    {"nome": "Naquela estrada de areia", "toque": "Samba", "youtube_id": "KhPrYYfndYI"},
+                    {"nome": "Caboclo Roxo da Pela Morena", "toque": "Samba", "youtube_id": "AEMTeDJ8gNQ"},
+                    {"nome": "Sob o Luar de Prata", "toque": "Congo", "youtube_id": "46f4IElyNmU"},
+                    {"nome": "A minha Aldeia esta em festa", "toque": "Congo", "youtube_id": "FPYVHlStrHw"},
+                    {"nome": "Eu fui pra Mata Caçar", "toque": "Congo", "youtube_id": "OQCuoSJ64YA"},
+                    {"nome": "Pisa na Aruanda", "toque": "Congo", "youtube_id": "hVopiHY1MtQ"},
+                    {"nome": "Portão da Aldeia/ Boca da Mata", "toque": "Barra Vento", "youtube_id": "K45b6WdS-kQ"},
+                    {"nome": "Mata Mata, la na Mata não tem só eu/ Eu estava na mata eu estava trabalhando", "toque": "Ijexá", "youtube_id": "lBqX4rgmbb4"},
+                    {"nome": "Caboclo quando é batizado", "toque": "Samba", "youtube_id": "zMmEbzGapFQ"},
+                    {"nome": "Ó que noite linda pra uma Caçada", "toque": "Congo", "youtube_id": "wfSAlEYfewY"},
+                    {"nome": "Um grito na mata ecou", "toque": "Samba", "youtube_id": "fA1V68gwVWs"},
+                    {"nome": "Que lindo Brado", "toque": "Congo", "youtube_id": "4x29C-e81Q0"},
+                    {"nome": "Caboclo Treme Terra", "toque": "Ijexá/ Samba", "youtube_id": "O7Zrmw3rFjs"},
+                    {"nome": "Louvação ao Caboclo Pena Branca", "toque": "Congo", "youtube_id": "7D6ZM7hu2D8"},
+                    {"nome": "Na Boca da Mata", "toque": "Ijexá", "youtube_id": "E7XDqN_85c4"},
+                    {"nome": "Ela é a Luz", "toque": "Congo", "youtube_id": "tY399c3Hd9I"},
+                    {"nome": "Pisa firme vem trabalhar", "toque": "Nagô", "youtube_id": "Y8YU8oiK0KQ"},
+                    {"nome": "7 Flechas no Gongá (7 Flechas)", "toque": "Samba", "youtube_id": "kzVgrQvUmjs"},
+                    {"nome": "Atravessei o mar a nado", "toque": "Barra Vento", "youtube_id": "Fd6LH0DiXv0"},
+                    {"nome": "Pula Caboclo por cima do Muro (FORTE)", "toque": "Barra Vento", "youtube_id": "j8A3iqZc88g"},
+                    {"nome": "Dentro da Mata Virgem (Jurema)", "toque": "Congo", "youtube_id": "dbjHxEXJzco"},
+                    {"nome": "Caboclo roxo da pela morena", "toque": "Samba", "youtube_id": "AEMTeDJ8gNQ"},
+                    {"nome": "Aqui nessa aldeia tem um caboclo que ele é leal", "toque": "Congo", "youtube_id": "h9u3VKZoJVQ"},
+                    {"nome": "Se ele é Tupi ele vem girar", "toque": "Barra Vento", "youtube_id": ""},
+                    {"nome": "Boca da Mata (Jupira)", "toque": "Barra Vento", "youtube_id": "lKu6SM6jJgg"},
+                    {"nome": "Ô Jureme Ô Jurema (Jurema)", "toque": "Samba", "youtube_id": "bog5qRfVfHk"},
+                    {"nome": "Caboclo Pena Dourada", "toque": "Congo", "youtube_id": "Uds_uzB8vrA"},
+                    {"nome": "Brado de Guerra (Trema Terra)", "toque": "Congo", "youtube_id": "KnKMD-AFbws"},
+                    {"nome": "Naquela estrada de areia", "toque": "Samba", "youtube_id": "KhPrYYfndYI"},
+                    {"nome": "Cabocla sua mata é linda", "toque": "Samba", "youtube_id": "RdAaMXVUoFo"},
+                    {"nome": "Um Índio Caboclo Guerreiro (7 Encruzilhadas)", "toque": "Congo", "youtube_id": "-9hBVz-2YNQ"},
+                    {"nome": "A Mata estava fechada", "toque": "Congo", "youtube_id": "G42dcwvNooM"},
+                    {"nome": "Oxossi mora na beira das Matas", "toque": "Samba", "youtube_id": ""},
+                    {"nome": "Pisa caboclo que a coisa é boa", "toque": "Congo", "youtube_id": "_4Lssf-CwBc"},
+                    {"nome": "Caboclo quando vem de Aruanda", "toque": "Nagô", "youtube_id": "Woxl1oxUbw4"},
+                    {"nome": "Tambor lhe chama (Pena Azul)", "toque": "Samba", "youtube_id": "Qbrxw05TrXo"},
+                    {"nome": "Seu Arranca Toco é de Aruanda, é de Nagô Zambê (Arranca Toco)", "toque": "Samba", "youtube_id": "xn_ZtWcnnaw"},
+                    {"nome": "Se o seu Saiote é Carijó", "toque": "Samba", "youtube_id": "5OsSIvxvCpY"},
+                    {"nome": "Estava na beira do rio (Tupinamba)", "toque": "Samba", "youtube_id": "PgspNpvisEA"},
+                    {"nome": "Ô salve o sol, salve a estrela guia (Ventania)", "toque": "Samba", "youtube_id": "SSBt-F6ywtg"},
+                    {"nome": "Arreia capangueiro, capangueiro da Juremâ", "toque": "Nagô", "youtube_id": ""},
+                    {"nome": "Caboclo é a Luz do dia", "toque": "Congo", "youtube_id": "QKzOK91x7-w"},
+                    {"nome": "Caçador na beira do caminho (Cobra Coral)", "toque": "Samba", "youtube_id": "t6MPG3bF0Lw"},
+                    {"nome": "Estava sentado na pedra fina", "toque": "Samba", "youtube_id": "0vlpkoorSRk"},
+                    {"nome": "Mensageira de Oxalá (Jurema)", "toque": "Samba", "youtube_id": "qbbykGhjh5w"},
+                    {"nome": "Caboclo leva tudo para o mar (descarrego)", "toque": "Nagô", "youtube_id": "KQpGTPZWjCw"},
+                    {"nome": "Oxala quem deu a Ordem, Omolú quem escolheu", "toque": "Congo", "youtube_id": "xvljTA3LxKg"},
+                    {"nome": "Se a Coral é sua cinta", "toque": "Nagô", "youtube_id": "z18BGwsZ14U"},
+                    {"nome": "Nas matas de Oxossi", "toque": "Nagô", "youtube_id": "CS74kwqnLE0"},
+                    {"nome": "Quando meu tambor rufar (Tupinamba)", "toque": "Samba", "youtube_id": "iH7TJEuZeBU"},
+                    {"nome": "Eu ja mandei fazer 3 capacetes de pena", "toque": "Samba", "youtube_id": "G9E75Rl1wl8"},
+                    {"nome": "A estrela la no céu brilhou", "toque": "Nagô", "youtube_id": "771IIB2ouak"},
+                    {"nome": "Jurema o seu saiote é tão lindo", "toque": "Samba", "youtube_id": "W5Uy0HB0QjI"},
+                    {"nome": "Caboclo quando vem la da Jurema", "toque": "Nagô", "youtube_id": "vMyWv5NVapw"},
+                    {"nome": "Como é lindo assistir festa nas matas", "toque": "Samba", "youtube_id": "f1k_hvW-L1M"},
+                    {"nome": "Quem é o caçador que mora na pedreira", "toque": "Nagô", "youtube_id": ""},
+                    {"nome": "Oxossi na Mata é Rei", "toque": "Samba", "youtube_id": "sAO8ed1TwSA"},
+                    {"nome": "Sereno que cai pela madrugada", "toque": "Samba", "youtube_id": "jcJiNAPz8fk"},
+                    {"nome": "Quem sente saudades chora (SUBIDA)", "toque": "Samba", "youtube_id": "OU4C4tg_c-A"}
+                ]
+            }
+        ]
+    },
+    {
+        "linha_nome": "Marinheiros",
+        "linha_slug": "marinheiros",
+        "sub_categorias": [
+            {
+                "titulo": "Obaluaê/ Omulu",
+                "pontos": [
+                    {"nome": "Xapanã Louvação", "toque": "Ijexá", "youtube_id": "FC3ufO0Au9o"},
+                    {"nome": "Ele é um velho, muito velho", "toque": "Ijexá/ Samba", "youtube_id": "-1BJXtwqbWo"},
+                    {"nome": "Casinha Branca", "toque": "Samba", "youtube_id": "cWCwkNB-3qk"},
+                    {"nome": "Silencio", "toque": "Congo", "youtube_id": "ADdbDhwVROo"},
+                    {"nome": "7 anos no deserto/ Atotô Babá", "toque": "Congo", "youtube_id": "rU0ACs39e0s"},
+                    {"nome": "Obaluaê quando era menino", "toque": "Congo", "youtube_id": "IebQTFuvS-I"},
+                    {"nome": "Força sagrada de Obaluaê", "toque": "Congo", "youtube_id": "Kvl3_vpECuA"},
+                    {"nome": "Se eu ver um velho no caminho eu peço a Bença", "toque": "Congo", "youtube_id": "3GP7tkTKs3E"},
+                    {"nome": "Dizem que a Umbanda tem mironga", "toque": "Congo", "youtube_id": "hKsjEdo50MM"},
+                    {"nome": "Ele é dono do Ilê", "toque": "Congo", "youtube_id": "EeVT11R9pD0"},
+                    {"nome": "Omulu, médico dos pobres", "toque": "Congo", "youtube_id": "Psl4CpqaLac"},
+                    {"nome": "Ele é um grande Orixa", "toque": "Barra Vento", "youtube_id": "gaNiahdC200"},
+                    {"nome": "Cade a chave do baú/ Omulu é Orixa", "toque": "Barra Vento", "youtube_id": "NXYNNbzK_bM"},
+                    {"nome": "Seu tesouro é osso", "toque": "Barra Vento", "youtube_id": "J0BaRO6CEuU"}
+                ]
+            },
+            {
+                "titulo": "Iemanjá",
+                "pontos": [
+                    {"nome": "Vou chamar minha Mãe", "toque": "Ijexá", "youtube_id": "yfBXe0mKHv8"},
+                    {"nome": "Mãe D'agua rainda das ondas", "toque": "Ijexá", "youtube_id": "DMfjIpRSoiQ"},
+                    {"nome": "Estrela do Mar", "toque": "Congo", "youtube_id": "0eEh7-SoDnk"},
+                    {"nome": "Um presente dos Orixás", "toque": "Congo", "youtube_id": "Er_Fz4xYGZk"},
+                    {"nome": "Num dia tão lindo, numa noite na areia", "toque": "Congo", "youtube_id": "M3LmTIvGlWA"},
+                    {"nome": "O Mãe das Águas", "toque": "Congo", "youtube_id": "6eVUqGAh76E"},
+                    {"nome": "Seu colar é de concha", "toque": "Samba", "youtube_id": "5Cq_PzaYr1M"},
+                    {"nome": "Eu fui na beira da Praia", "toque": "Samba", "youtube_id": "8U-XinnXZ-A"},
+                    {"nome": "Iemanjá é a Rainha do Mae", "toque": "Samba", "youtube_id": "qHmT44pIJ_c"},
+                    {"nome": "Não chore filho de Umbanda", "toque": "Samba", "youtube_id": "_OoVbdXH5b8"},
+                    {"nome": "La fora apitou um Navio", "toque": "Congo", "youtube_id": "zqTvxkFbI0s"},
+                    {"nome": "Vou cantar pros Marinheiros", "toque": "Samba", "youtube_id": "_rqrhg1jM60"},
+                    {"nome": "Marinheiro é Hora", "toque": "Samba", "youtube_id": "ibK1Nc72TFw"},
+                    {"nome": "Rema Canoa", "toque": "Nagô", "youtube_id": "aRbOhgkd_xo"},
+                    {"nome": "Puxa as correntes do Mar Marinheiro", "toque": "Barra Vento", "youtube_id": "OuDQKhFOurc"},
+                    {"nome": "O Marinheiro aguenta o leme", "toque": "Congo", "youtube_id": "HAgYuZ0jfrg"},
+                    {"nome": "A Marola do Mar ja vem chegando", "toque": "Samba", "youtube_id": "tz8bgEvjY0Q"},
+                    {"nome": "Quebra mar", "toque": "Samba", "youtube_id": "bgilsg3pxVo"},
+                    {"nome": "Seu Marinheiro eu não sei porque", "toque": "Samba", "youtube_id": "adBtuMo5ERQ"},
+                    {"nome": "Balanço da Fé", "toque": "Samba", "youtube_id": "CMk5hg_679E"},
+                    {"nome": "Boca do Garrafão", "toque": "Samba", "youtube_id": "mkysi6pu0lw"},
+                    {"nome": "Seu Martim cade as ondas do mar", "toque": "Samba", "youtube_id": "vnPTI8w66z0"},
+                    {"nome": "História de pescador", "toque": "Barra Vento", "youtube_id": "iO5wS0_XmKE"},
+                    {"nome": "A onda me trouxe o vento me leva", "toque": "Barra Vento", "youtube_id": "qPPzY96hiq8"},
+                    {"nome": "Quem te ensinou a nadar", "toque": "Nagô", "youtube_id": "_Zku81V9zhQ"},
+                    {"nome": "Jangadeiro vai, sopra o vento vai", "toque": "Nagô", "youtube_id": "vk47YiuAq7o"},
+                    {"nome": "Seu Martim pescador Saravá nossa Umbanda", "toque": "Samba", "youtube_id": "j6FNKohWPUo"},
+                    {"nome": "Sei quem sou eu", "toque": "Samba", "youtube_id": "C4nXYfNpOfE"},
+                    {"nome": "Seu Marinheiro da Barca de Ouro", "toque": "Samba", "youtube_id": "F7mcQslrf3E"},
+                    {"nome": "Barquinha linda que vem de lisboa", "toque": "Congo", "youtube_id": "cMK6Sa1fMvc"},
+                    {"nome": "Rei dos Sete Mares", "toque": "Congo", "youtube_id": "dvHKYwcBbHg"},
+                    {"nome": "Artilharia já saldei", "toque": "Congo", "youtube_id": "jwwjyptGufU"},
+                    {"nome": "Marinheiro de Aruanda", "toque": "Nagô", "youtube_id": "ij30tqOjpHk"},
+                    {"nome": "Eu sou um Marujo velho", "toque": "Nagô", "youtube_id": "xezRL3F8RzQ"},
+                    {"nome": "Marinheiro Só", "toque": "Ijexá", "youtube_id": "x6xuUuUfqRs"},
+                    {"nome": "Seu Marinheiro sua morada é no mar", "toque": "Ijexá", "youtube_id": "yK5iKvvOB2I"},
+                    {"nome": "Martim Pescador que Banda é a sua", "toque": "Ijexá", "youtube_id": "JeHCWpnTkWk"},
+                    {"nome": "De quem é a ancora que segura meu Terreiro", "toque": "Samba", "youtube_id": "ZJWZ9KIdymk"},
+                    {"nome": "Vem Marinheiro", "toque": "Samba", "youtube_id": "0tkR5X2uAWk"},
+                    {"nome": "No mar é Marinheiro", "toque": "Samba", "youtube_id": "UeWNYP-t-7U"},
+                    {"nome": "Seu pescador, seu pescador", "toque": "Samba", "youtube_id": "VtJE_CPjeAo"},
+                    {"nome": "Ela estava no cais", "toque": "Samba", "youtube_id": "T9aJJMmMXow"},
+                    {"nome": "O Remador o Remador", "toque": "Samba", "youtube_id": "7187942677873216773"},
+                    {"nome": "Ponto de Martim Pescador", "toque": "Ijexá", "youtube_id": "OCuuW0z93Zk"},
+                    {"nome": "Canoeiro", "toque": "Ijexá", "youtube_id": "ViU-5k75D2I"},
+                    {"nome": "O Marinheiro leva seu filho benzer", "toque": "Ijexá", "youtube_id": "V7IOhxojCL4"},
+                    {"nome": "La se vai a Marujada (SUBIDA)", "toque": "SAMBA", "youtube_id": "7043299948569447686"},
+                    {"nome": "Adeus Camarada Adeus (SUBIDA)", "toque": "SAMBA", "youtube_id": "a5uBi0NuDnc"}
+                ]
+            }
+        ]
+    },
+    {
+        "linha_nome": "Malandros",
+        "linha_slug": "malandros",
+        "sub_categorias": [
+            {
+                "titulo": "Malandros",
+                "pontos": [
+                    {"nome": "Pedimos licença a Zambi", "toque": "SAMBA", "youtube_id": "bA2X-co8W7o"},
+                    {"nome": "Estava na beira da praia", "toque": "SAMBA", "youtube_id": "mACNo-Da3qA"},
+                    {"nome": "Deus da Guerra", "toque": "CONGO", "youtube_id": "llLgpWo9wDo"},
+                    {"nome": "General da Umbanda", "toque": "CONGO", "youtube_id": "2NDSs058_cY"},
+                    {"nome": "Ogum Xoroke", "toque": "CONGO", "youtube_id": "gkwRb9SX6P0"},
+                    {"nome": "Quando Ogum partiu pra Guerra", "toque": "CONGO", "youtube_id": "xsNB5bxl6rw"},
+                    {"nome": "Armas do Ouro de Oxum", "toque": "CONGO", "youtube_id": "tr6Fs5loibM"},
+                    {"nome": "Ogum me disse que dançar nago é bom", "toque": "CONGO", "youtube_id": "qxqwuuIUw9c"},
+                    {"nome": "Abra a minha estrada", "toque": "CONGO", "youtube_id": "1WFD0jkwDv4"},
+                    {"nome": "Selei seu Cavalo", "toque": "CONGO", "youtube_id": "dfF6efZlnZY"},
+                    {"nome": "Pombinho Branco, Mensageiro de Oxalá", "toque": "Ijexá", "youtube_id": "D5nu7t9yPPw"},
+                    {"nome": "Oxalá criou a Terra", "toque": "Ijexá", "youtube_id": "vPrliC0xeKM"},
+                    {"nome": "Oxalá olha para o mundo", "toque": "Ijexá", "youtube_id": "1NQKoaMm91g"},
+                    {"nome": "Força do Divino", "toque": "Ijexá", "youtube_id": "0VYaQIiDuag"},
+                    {"nome": "Tem pena de nós tem dó", "toque": "Nagô", "youtube_id": "Ljvv7xAou64"},
+                    {"nome": "Cante pra valer", "toque": "Nagô", "youtube_id": "ibH5JZXeIHY"},
+                    {"nome": "Ele é o Rei dos Orixas", "toque": "Congo", "youtube_id": "UUsbF8bC58U"},
+                    {"nome": "A inveja é", "toque": "Samba", "youtube_id": "PDETInTxqh4"},
+                    {"nome": "A malandragem fala por si", "toque": "Samba", "youtube_id": "wK_IAOU33O0"},
+                    {"nome": "Apostou no carteado", "toque": "Samba", "youtube_id": "U-yYeKqleVU"},
+                    {"nome": "As estrelas lhe guiam Moça", "toque": "Samba", "youtube_id": "lHkLCwQA7_U"},
+                    {"nome": "Bala trocada não doi", "toque": "SAMBA", "youtube_id": "z_as_Vir_Gk"},
+                    {"nome": "Beba beba beba, na porta de um botequim", "toque": "Samba", "youtube_id": "l44BwdD1Wkw"},
+                    {"nome": "Bem que eu disse a vocês", "toque": "Samba", "youtube_id": "w3kVuWoqsqY"},
+                    {"nome": "Boa noite pra quem é de boa noite", "toque": "IJEXÁ", "youtube_id": "xZaWr5Oorik"},
+                    {"nome": "Boemio da Madrugada", "toque": "Samba", "youtube_id": "YDsUiiBT0os"},
+                    {"nome": "Com meu Baralho desafio qualquer um", "toque": "Samba", "youtube_id": "YtpWg4mcQhQ"},
+                    {"nome": "Cuidado Seu Zé/ Malandrinha do Cais", "toque": "SAMBA", "youtube_id": "RNSnBJpaOn0"},
+                    {"nome": "Dizem que ele matou", "toque": "Congo", "youtube_id": "Fd5zuBNZqeg"},
+                    {"nome": "É que eu nasci na rua", "toque": "SAMBA", "youtube_id": "mb-4DmPlNEQ"},
+                    {"nome": "Ela traz uma Navalha", "toque": "Samba", "youtube_id": "tRcYfYcXVNM"},
+                    {"nome": "Ele brinca mas não é de brincadeira", "toque": "Samba", "youtube_id": "0situLjzeN4"},
+                    {"nome": "Ele levou 7 facadas", "toque": "Samba", "youtube_id": "8BsHotq4K-M"},
+                    {"nome": "Encontrei Zé Pilintra na Estrada", "toque": "SAMBA", "youtube_id": "aoK4LyFgL44"},
+                    {"nome": "Estava sentado no muro", "toque": "SAMBA", "youtube_id": "Z-Jsq9r6BSE"},
+                    {"nome": "Eu andava triste", "toque": "Samba", "youtube_id": "_Ty-DgFumiI"},
+                    {"nome": "Eu ando triste o Zé", "toque": "SAMBA", "youtube_id": "jqoLv8hUajk"},
+                    {"nome": "Eu falei pra não mexer", "toque": "Samba", "youtube_id": "tXLMibJ5gko"},
+                    {"nome": "Eu nasci num barracão", "toque": "Samba", "youtube_id": "O01ZSRM31Qc"},
+                    {"nome": "Fecha a porteira, cancelas e trunqueiras", "toque": "Samba", "youtube_id": "xOD_OiZpbqc"},
+                    {"nome": "Foi uma tragédia", "toque": "Samba", "youtube_id": "jwyokzmuc0w"},
+                    {"nome": "Homem Valente", "toque": "Samba", "youtube_id": "xHUCbnx9_9k"},
+                    {"nome": "Jurema Preta do Seu Zé", "toque": "SAMBA", "youtube_id": ""},
+                    {"nome": "Malandra do Cabaré", "toque": "Samba", "youtube_id": "_xs4I4_3JAI"},
+                    {"nome": "Malandro Casa Preta", "toque": "CONGO", "youtube_id": "qV6RcreeR84"},
+                    {"nome": "Malandro da Gamboa", "toque": "SAMBA", "youtube_id": "HRvBN3FX3LI"},
+                    {"nome": "Malandro do Alto", "toque": "SAMBA", "youtube_id": "xqeT4P4J9L8"},
+                    {"nome": "Malandro se na minha cara der", "toque": "Samba", "youtube_id": "ACWeZPRUP9E"},
+                    {"nome": "Meu amigo", "toque": "SAMBA", "youtube_id": "20GprZ7Y9i4"},
+                    {"nome": "Misericórdia de Malandro", "toque": "SAMBA", "youtube_id": "MFX1711MQME"},
+                    {"nome": "Muito prazer sou Maria Navalha", "toque": "SAMBA", "youtube_id": "GQ-Ka9Rk5As"},
+                    {"nome": "Mulher mulher, não tenha medo do seu marido", "toque": "Samba", "youtube_id": "8XxT88qTc9U"},
+                    {"nome": "Mulher pra quem tem Fé", "toque": "Samba", "youtube_id": "hfQPLIlEZjc"},
+                    {"nome": "Na baixa do sapateiro", "toque": "Barra Vento", "youtube_id": "zygZToKeM9Y"},
+                    {"nome": "Não mexa com ela", "toque": "SAMBA", "youtube_id": "tw_120RPWr8"},
+                    {"nome": "Não precisa chorar, não precisa sofrer", "toque": "Samba", "youtube_id": "z8s5stnrxi8"},
+                    {"nome": "O Bom Malandro", "toque": "SAMBA", "youtube_id": ""},
+                    {"nome": "O morro de Santa Tereza está de luto", "toque": "Samba", "youtube_id": "8uwPP_6gBjs"},
+                    {"nome": "Olha lá quem vem chegando", "toque": "Samba", "youtube_id": ""},
+                    {"nome": "Plantei uma semente", "toque": "Samba", "youtube_id": "1yRBixOW8K8"},
+                    {"nome": "Pode me chamar de covarde", "toque": "CONGO", "youtube_id": "zdy_i_XkaDU"},
+                    {"nome": "Quando eu subo o morro", "toque": "CONGO", "youtube_id": "WAeMpA-Jr7E"},
+                    {"nome": "Quando vem de alagoas", "toque": "Samba", "youtube_id": "12pMSYN05dg"},
+                    {"nome": "Quando vem de Aruanda", "toque": "Samba", "youtube_id": "NzsrRW13OGU"},
+                    {"nome": "Respeita a Malandra da Lapa", "toque": "Samba", "youtube_id": "qOTYTYJpkNA"},
+                    {"nome": "Roda de Malandragem", "toque": "SAMBA", "youtube_id": "ayM2fLNfs6s"},
+                    {"nome": "Roda de Malandro", "toque": "CONGO", "youtube_id": "Dut86s8eJLM"},
+                    {"nome": "Rosa Malandra", "toque": "Samba", "youtube_id": "5LxWZJjxFys"},
+                    {"nome": "Saia do meio arreda ai, vai la pro canto", "toque": "Samba", "youtube_id": "y_9Jl7sb-6I"},
+                    {"nome": "Samba no fio da Navalha", "toque": "SAMBA", "youtube_id": "ZuseT7Gwf_c"},
+                    {"nome": "Se a radio patrulha chegasse aqui agora", "toque": "SAMBA", "youtube_id": "XogK4ZkqnJU"},
+                    {"nome": "Ser Dr. não maltrate esse Negro", "toque": "Samba", "youtube_id": "Teacj8QQbz8"},
+                    {"nome": "Seu Dr. Seu Dr.", "toque": "Samba", "youtube_id": "tyKhAkRga2g"},
+                    {"nome": "Seu Dr. Seu Dr.", "toque": "SAMBA", "youtube_id": "tyKhAkRga2g"},
+                    {"nome": "Seu Zé Pilintra não teve mãe, não teve pai", "toque": "Samba", "youtube_id": "Ri_kSDjUiqE"},
+                    {"nome": "Seu Zé Pilintra quando vem", "toque": "Nagô", "youtube_id": "2iQSOFfIBlE"},
+                    {"nome": "Sou Zé Pilintra", "toque": "IJEXÁ", "youtube_id": "ybqb0TBlJ8c"},
+                    {"nome": "Toma que o filho é teu", "toque": "SAMBA", "youtube_id": "TeKaNKyaWEY"},
+                    {"nome": "Trabalhar pra que?", "toque": "SAMBA", "youtube_id": "NYhRFxJmoVA"},
+                    {"nome": "Trabalho de Zé Pilintra", "toque": "SAMBA", "youtube_id": "A0EYThCG22Y"},
+                    {"nome": "Valei me Senhora Aparecida", "toque": "Samba", "youtube_id": "DaIs_bL0lpE"},
+                    {"nome": "Você é meu camarada", "toque": "Nagô", "youtube_id": "Yzoi5fUL9ac"},
+                    {"nome": "Você que fez trato com Malandro", "toque": "SAMBA", "youtube_id": "NdPlgrxRueg"},
+                    {"nome": "Vocês estão vendo aquela casa pequenina", "toque": "SAMBA", "youtube_id": "V7vVVl9Gcwg"},
+                    {"nome": "Vou descendo o morro/ Aquela casa pequenina", "toque": "SAMBA", "youtube_id": "F26fPzHLwsc"},
+                    {"nome": "Zé Malandro me ensinou", "toque": "SAMBA", "youtube_id": "fzZaWL8pDeA"},
+                    {"nome": "Zé Pretinho tem Malandro na Umbanda", "toque": "SAMBA", "youtube_id": "pN8SIh6rKyw"},
+                    {"nome": "Boa noite Meu Senhor, Boa noite Minha Senhora (SUBIDA)", "toque": "Samba", "youtube_id": "7Mk1va6hZDE"},
+                    {"nome": "Subida do Povo da Malandragem (SUBIDA)", "toque": "CONGO", "youtube_id": "eF2ig-q1WLo"}
+                ]
+            }
+        ]
+    },
+    {
+        "linha_nome": "Baianos",
+        "linha_slug": "baianos",
+        "sub_categorias": [
+            {
+                "titulo": "Baianos",
+                "pontos": [
+                    {"nome": "Pombinho Branco, Mensageiro de Oxalá", "toque": "Ijexá", "youtube_id": "D5nu7t9yPPw"},
+                    {"nome": "Oxalá criou a Terra", "toque": "Ijexá", "youtube_id": "vPrliC0xeKM"},
+                    {"nome": "Oxalá olha para o mundo", "toque": "Ijexá", "youtube_id": "1NQKoaMm91g"},
+                    {"nome": "Força do Divino", "toque": "Ijexá", "youtube_id": "0VYaQIiDuag"},
+                    {"nome": "Tem pena de nós tem dó", "toque": "Nagô", "youtube_id": "Ljvv7xAou64"},
+                    {"nome": "Cante pra valer", "toque": "Nagô", "youtube_id": "ibH5JZXeIHY"},
+                    {"nome": "Ele é o Rei dos Orixas", "toque": "Congo", "youtube_id": "UUsbF8bC58U"},
+                    {"nome": "Dona dos Ventos", "toque": "Samba", "youtube_id": "VpxWrWs8oBY"},
+                    {"nome": "Me protegi no Bambuzal de Iansã", "toque": "Samba", "youtube_id": "IYOCxbFxBWw"},
+                    {"nome": "Iansã Orixá de Umbanda", "toque": "Samba", "youtube_id": "U5KW0EZRvfo"},
+                    {"nome": "A Guerreira vai Reinar", "toque": "Congo", "youtube_id": "LeeLdl3eK0w"},
+                    {"nome": "Ela é Oya", "toque": "Congo", "youtube_id": "VUVIDNZKCe0"},
+                    {"nome": "Quando Oya me chamou", "toque": "Barra Vento", "youtube_id": "IgQvlYXS4gQ"},
+                    {"nome": "Meu pai que barulho é esse", "toque": "Barra Vento", "youtube_id": "JjOJm7pbPxk"},
+                    {"nome": "Olha Eu", "toque": "Barra Vento", "youtube_id": "VHmQPaxolX0"},
+                    {"nome": "Zé Baiano", "toque": "Samba", "youtube_id": "BUaUJiWGu78"},
+                    {"nome": "O meu senhor do Bonfim", "toque": "Samba", "youtube_id": "lmsKiaQtFcI"},
+                    {"nome": "Balança porteira velha", "toque": "Samba", "youtube_id": "2BexPwLwSF0"},
+                    {"nome": "A Baiana deu sinal", "toque": "Samba", "youtube_id": "NQtHqKDvXfQ"},
+                    {"nome": "Povo Bom", "toque": "Samba", "youtube_id": "HUkzRNXlW7w"},
+                    {"nome": "Baiana Feiticeira", "toque": "Samba", "youtube_id": "eeBjLYAElQg"},
+                    {"nome": "Quando eu vim la da Bahia", "toque": "Samba", "youtube_id": "zJOdMRzF-rE"},
+                    {"nome": "Se ele é Baiano eu quero ver", "toque": "Congo", "youtube_id": "EeOwZjjcg00"},
+                    {"nome": "Baiano Bom Baiano Bom", "toque": "Samba", "youtube_id": "3c5s3sTvb5k"},
+                    {"nome": "Vem Baiano vem", "toque": "Barra Vento", "youtube_id": "NSLkXO8VkWs"},
+                    {"nome": "Bahia ô Africa vem nos ajudar", "toque": "Nagô", "youtube_id": "aASk4EKNGlc"},
+                    {"nome": "Pisa Baiano", "toque": "Barra Vento", "youtube_id": "nBsLHA0GoJ4"},
+                    {"nome": "Bahia de Pai Oxalá", "toque": "Ijexá", "youtube_id": "Kwjk9vozIrk"},
+                    {"nome": "Baiano Severino", "toque": "Samba", "youtube_id": "mLLHRQdHV4Q"},
+                    {"nome": "Bahia de Deus", "toque": "Samba", "youtube_id": "GmyjNkN8g4M"},
+                    {"nome": "Vou levar meu amor pro Samba", "toque": "Samba", "youtube_id": "JNOTfyf5k7I"},
+                    {"nome": "Dona da Casa Cheguei Agora", "toque": "Samba", "youtube_id": "Qec27DfBsDY"},
+                    {"nome": "Levanta Mulé, Corra a Roda", "toque": "Samba", "youtube_id": "ZFiyYd_TpIM"},
+                    {"nome": "A chuva chuveu na areia", "toque": "Samba", "youtube_id": "1bgFf_29xYE"},
+                    {"nome": "Lá em Caculé / Quebra o Coco", "toque": "Ijexá", "youtube_id": "UDw71mgilmI"},
+                    {"nome": "Dona da Casa me de licença / Olê Olê", "toque": "Samba", "youtube_id": "xI5uZUwk8PY"},
+                    {"nome": "Meu Irmão eu vou pra Bahia", "toque": "Samba", "youtube_id": "Ajx735w6Sfg"},
+                    {"nome": "Maria do Balaio", "toque": "Ijexá", "youtube_id": "uniooherjjI"},
+                    {"nome": "Sou Baiana de Missanga", "toque": "Samba", "youtube_id": "PbgiyvX1LJc"},
+                    {"nome": "Plantei milho pra colher fuba", "toque": "Barra Vento", "youtube_id": "bvNs2ReDLyQ"},
+                    {"nome": "Lampião da Bahia", "toque": "Samba", "youtube_id": "VI3MOX1Xxx8"},
+                    {"nome": "Eu levei uma carreira", "toque": "Samba", "youtube_id": "7NN_FFEaAnw"},
+                    {"nome": "Terra de Dois", "toque": "Nagô", "youtube_id": "JJHjasFWSLY"},
+                    {"nome": "Coquinho Baiano", "toque": "Nagô", "youtube_id": "naG4vM7l_44"},
+                    {"nome": "Baiana faz e não manda", "toque": "Samba", "youtube_id": "sJABDqo4FM4"},
+                    {"nome": "Esse mundo é de Deus", "toque": "Samba", "youtube_id": "XksuEu2XNWA"},
+                    {"nome": "Mané Baiano", "toque": "Samba", "youtube_id": "vCeGUKmCa1w"},
+                    {"nome": "O trem corre é por cima da linha", "toque": "Samba", "youtube_id": "7NN_FFEaAnw"},
+                    {"nome": "Quem entrou na roda/ Me deixa", "toque": "Samba", "youtube_id": "SgB5KoVvAhw"},
+                    {"nome": "Flor da Laranjeira", "toque": "Samba", "youtube_id": "PrqiiAfRM2o"},
+                    {"nome": "Libertação dos Baianos", "toque": "Congo", "youtube_id": "RKTLmIgR4QE"},
+                    {"nome": "Meu Chapéu / Quem tem baiano pisa / Rebenta o côco", "toque": "Ijexá", "youtube_id": "JcDAzH5arGk"},
+                    {"nome": "Baiano é bom que nem Surucucu", "toque": "Samba", "youtube_id": "6fpRa8onhX4"},
+                    {"nome": "Dende no Fogo", "toque": "Barra Vento", "youtube_id": "0gYmx23Pwtk"},
+                    {"nome": "Baiana Baiana de Saia Rendada", "toque": "Ijexá", "youtube_id": "bU5VGvg7aCQ"},
+                    {"nome": "Quando o Baiano piza o terreiro balanceia / A Bananeira Caiu", "toque": "Samba", "youtube_id": "PA03wt_7W_s"},
+                    {"nome": "Dona da Casa a Casa é sua", "toque": "Samba", "youtube_id": "7XtXgt2meV4"},
+                    {"nome": "Benza Deus", "toque": "Samba", "youtube_id": "a7gilRGVxrY"},
+                    {"nome": "Deus Vos salve a Casa Santa", "toque": "Rufando", "youtube_id": "2f5hvqdmxHU"},
+                    {"nome": "Peguei ta pegado, marrei ta marrado", "toque": "Samba", "youtube_id": "IegRSfRwI_o"},
+                    {"nome": "Maria Bonita", "toque": "Nagô", "youtube_id": "stKISsOMmDM"},
+                    {"nome": "Minha Santa Bahia", "toque": "Nagô", "youtube_id": "9qTqaL3mks4"},
+                    {"nome": "Não mexe comigo não", "toque": "Nagô", "youtube_id": "vzhddrueeag"},
+                    {"nome": "Trabalha Zé Baiano", "toque": "Samba", "youtube_id": "SgH16BPFjy0"},
+                    {"nome": "É na pisada que o Baiano veio é na pisada que o Baiano vai embora", "toque": "Ijexá", "youtube_id": "trrTW-bRnNw"},
+                    {"nome": "Pra Aruanda eu vou embora", "toque": "Ijexá", "youtube_id": "ju-lY1J0EWE"}
+                ]
+            }
+        ]
+    },
+    {
+        "linha_nome": "Ciganos",
+        "linha_slug": "ciganos",
+        "sub_categorias": [
+            {
+                "titulo": "Ciganos",
+                "pontos": [
+                    {"nome": "Dona do Fogo", "toque": "Congo", "youtube_id": "k4cJUJN5_1Q"},
+                    {"nome": "Kalie minha mãe divida Egunita", "toque": "Samba", "youtube_id": "e6SWnZGD90g"},
+                    {"nome": "Sua Mãe Egunita", "toque": "Samba", "youtube_id": "sNhzrAe2PA4"},
+                    {"nome": "Raio Flamejante", "toque": "Samba", "youtube_id": "rSjrCGz4ZRc"},
+                    {"nome": "Egunita Orixa de Umbanda", "toque": "Nagô", "youtube_id": "IXxr2-YFDJQ"},
+                    {"nome": "Vem Mamãe Egunita", "toque": "Samba", "youtube_id": "2-PvRpsRQqw"},
+                    {"nome": "Oração a Iansa", "toque": "dobrando", "youtube_id": ""},
+                    {"nome": "Meu pai que barulho é esse?", "toque": "Barra Vento", "youtube_id": "JjOJm7pbPxk"},
+                    {"nome": "Rajada de Vento", "toque": "Barra Vento", "youtube_id": "iIq-G_Re5KQ"},
+                    {"nome": "A Guerreira vai Reinar", "toque": "Congo", "youtube_id": "LeeLdl3eK0w"},
+                    {"nome": "Ela é Oyá", "toque": "Congo", "youtube_id": "slr4GRSx9Os"},
+                    {"nome": "Bambuzal de Iansã", "toque": "Samba", "youtube_id": "bp-3cqAsdOk"},
+                    {"nome": "O Vento vem trazendo o nome dela", "toque": "Samba", "youtube_id": "vN9gk5NMvpw"},
+                    {"nome": "Força de Oya", "toque": "Samba", "youtube_id": "fuUZhMD0Bus"},
+                    {"nome": "Saudação a Xangô", "toque": "Ijexá", "youtube_id": "94JwGYTOmks"},
+                    {"nome": "Amarra os Inimigos e da um nó", "toque": "Congo", "youtube_id": "qd8vWqQFN8I"},
+                    {"nome": "Ele Braudou na Aldeia", "toque": "Congo", "youtube_id": "cWytYNEFQbI"},
+                    {"nome": "Vejam que pedreira linda", "toque": "Congo", "youtube_id": "Ubro1XxVBC8"},
+                    {"nome": "No alto daquela pedreira", "toque": "Congo", "youtube_id": "rnWFv4OYthc"},
+                    {"nome": "Morada de Xangô Ayrá", "toque": "Congo", "youtube_id": ""},
+                    {"nome": "Que mata é essa que o Leão não entra", "toque": "Congo", "youtube_id": "H3C408IoEBI"},
+                    {"nome": "Maleme", "toque": "Samba", "youtube_id": "joZFs5naYyk"},
+                    {"nome": "O Gino olha sua banda", "toque": "Samba", "youtube_id": "FY6u4H7iaKc"},
+                    {"nome": "Por detras daquela serra", "toque": "Samba", "youtube_id": "9D_CMog5fVE"},
+                    {"nome": "Eu ouvi no bater da pedra", "toque": "Samba", "youtube_id": "3uDLwy9rF5M"},
+                    {"nome": "Povo cigano chegou", "toque": "Barra Vento", "youtube_id": "vBG13VMc8Pw"},
+                    {"nome": "Ouvi de Longe suas Castanholas", "toque": "Samba", "youtube_id": "ATCHuSjVCvE"},
+                    {"nome": "Arruma Acampamento", "toque": "Congo de Ouro", "youtube_id": "OHeJ5ra4ebc"},
+                    {"nome": "Ori, ori, oriê, linda Cigana essa dança é pra você.", "toque": "Barra Vento", "youtube_id": "SPqjSOCW5FE"},
+                    {"nome": "A lua iluminou o meu terreiro", "toque": "Congo de Ouro", "youtube_id": "qzllfLAC_U4"},
+                    {"nome": "Uma cigana leu a minha mão", "toque": "Congo de Ouro", "youtube_id": "8wSLRYHeyD4"},
+                    {"nome": "Cigano filho do vento", "toque": "Congo de Ouro", "youtube_id": "bWLxbmYdggI"},
+                    {"nome": "De Longe Eu Vim - Ponto de Cigana", "toque": "Congo de Ouro", "youtube_id": "ZBpxMq9araE"},
+                    {"nome": "Santa Sara,deixa teu Povo passar", "toque": "Congo de Ouro", "youtube_id": "odnlyocwDVw"},
+                    {"nome": "Oh Cirandeiro", "toque": "Samba", "youtube_id": "QWB0A98GxZM"},
+                    {"nome": "Baralho de Ouro", "toque": "Samba", "youtube_id": "U-yutqFVoKE"},
+                    {"nome": "Veja meu destino, oh cigana", "toque": "Samba", "youtube_id": "FZWYRxGECFI"},
+                    {"nome": "Oi abre a roda deixa a Cigana trabalhar", "toque": "Samba", "youtube_id": "nhbXMp2dbzs"},
+                    {"nome": "Rosa Vermelha, Rosa Amarela", "toque": "Samba", "youtube_id": "IRGMEpHTOf4"},
+                    {"nome": "Ganhei uma barraca velha", "toque": "Samba", "youtube_id": "bvXAf-lGZHc"},
+                    {"nome": "Cigana Das Rosas Vermelhas Umbanda", "toque": "Samba", "youtube_id": "9pjLt_eRYBg"},
+                    {"nome": "Eu vim ao mundo, eu sou cigana", "toque": "Samba", "youtube_id": "D38ivfIXwrg"},
+                    {"nome": "Quem Puder Sentir A Brisa", "toque": "Samba/ Ijexá", "youtube_id": "4EUdzCv4-34"},
+                    {"nome": "Cigano Pablo Huan", "toque": "Congo", "youtube_id": "SQKqD6tsyfE"},
+                    {"nome": "Estava na beira da praia", "toque": "Samba", "youtube_id": "L5hojGufJ7A"},
+                    {"nome": "Vem vem caminhar", "toque": "Ijexá", "youtube_id": "9-Stn8L8bTI"},
+                    {"nome": "Cigana de Fé/ Doi doi doi", "toque": "Samba", "youtube_id": "8yJnnVp8E9A"},
+                    {"nome": "Linda Cigana", "toque": "Samba", "youtube_id": "hkjbjx_atw0"},
+                    {"nome": "Ciganos do Caminho/ Cigana menina", "toque": "Samba", "youtube_id": "YaQLGB_lsHM"},
+                    {"nome": "Embala meu coração", "toque": "Congo", "youtube_id": "ahIaud1AWNI"},
+                    {"nome": "Cigana Esmeralda", "toque": "Samba", "youtube_id": "XRzGQrHCJn8"},
+                    {"nome": "Cigada da Estrada", "toque": "Samba", "youtube_id": "4hVlUIDb8nE"},
+                    {"nome": "Ó Cigana", "toque": "Ijexá", "youtube_id": "_1dtlq3m_Jc"},
+                    {"nome": "Quando a lua brilha Cigana vem festejar", "toque": "Samba", "youtube_id": "Fo1wO1h63fM"},
+                    {"nome": "Cigana Samyra", "toque": "Congo", "youtube_id": "lgS7_aJABk8"},
+                    {"nome": "Cigano Santiago", "toque": "Congo", "youtube_id": "zRETMtOLrVQ"},
+                    {"nome": "Cigano Alejandro", "toque": "Congo", "youtube_id": ""},
+                    {"nome": "Ciganas Formosas", "toque": "Samba", "youtube_id": "296cbuosdII"},
+                    {"nome": "Santa Sara mandou uma Cigana no Terreiro", "toque": "Samba", "youtube_id": "4olWKiuiQ20"},
+                    {"nome": "Cigana Dolores", "toque": "Congo", "youtube_id": "mmrNQWCdLVw"},
+                    {"nome": "Cigano Wladmir", "toque": "Barra Vento", "youtube_id": "SfAxhI32pKg"},
+                    {"nome": "Rainha Cigana", "toque": "Samba", "youtube_id": "QD9Bum-CY-Q"},
+                    {"nome": "Sara La Kali", "toque": "Ijexá", "youtube_id": "IsZgVGLdonU"},
+                    {"nome": "A mais linda natureza", "toque": "Samba", "youtube_id": "BF7kN4RWFIU"},
+                    {"nome": "Castanhola tocou", "toque": "Samba", "youtube_id": "RHfnOptNaQI"},
+                    {"nome": "Cigana Carmencita", "toque": "Samba", "youtube_id": "ftjszoijpb0"},
+                    {"nome": "Vem Wladimir", "toque": "Barra Vento", "youtube_id": "dzR80neZxjM"},
+                    {"nome": "Numa noite linda", "toque": "Samba", "youtube_id": "CmsBuWpjl8k"},
+                    {"nome": "Que vem la do Oriente", "toque": "Congo", "youtube_id": "QrIUB8OCm30"},
+                    {"nome": "Na porta de uma praça", "toque": "Ijexá", "youtube_id": "IWzw0jhHmkE"},
+                    {"nome": "Quando o sol não mais brilhar", "toque": "Samba", "youtube_id": "aaKdUGVa92Q"},
+                    {"nome": "Cigana Formosa", "toque": "Samba", "youtube_id": "ikmJbgkeAdI"},
+                    {"nome": "Não chore não chore", "toque": "Samba", "youtube_id": "zAq2HnCh6aY"},
+                    {"nome": "Baila em volta da fogueira", "toque": "Ijexá", "youtube_id": "Yriy18Gnuek"},
+                    {"nome": "Lenço de pano, camisa de muitas cores", "toque": "Ijexá", "youtube_id": "RYb7YaV6OhY"},
+                    {"nome": "Você é a Sara, Sara a Cigana", "toque": "Samba", "youtube_id": "lAzW5JikBQ8"},
+                    {"nome": "Rosa Branca, Rosa Amarela", "toque": "Samba", "youtube_id": "_rQL1kDdvuI"},
+                    {"nome": "Cabana Florestal", "toque": "Samba", "youtube_id": "jv44aepoTtQ"},
+                    {"nome": "Tem festa a noite inteira", "toque": "Samba", "youtube_id": ""},
+                    {"nome": "Me Tacaram muita inveja", "toque": "Samba", "youtube_id": "AgP8htnPsZs"},
+                    {"nome": "Cigano - Eles vão no clarão da lua (SUBIDA)", "toque": "Congo de Ouro", "youtube_id": "Mv_GidmyLCo"}
+                ]
+            }
+        ]
+    },
+    {
+        "linha_nome": "Pretos Velhos",
+        "linha_slug": "pretos_velhos",
+        "sub_categorias": [
+            {
+                "titulo": "Pretos Velhos",
+                "pontos": [
+                    {"nome": "Sou de Nanã", "toque": "Ijexá", "youtube_id": "OsTKEThGaF0"},
+                    {"nome": "Nos pés de Nanã eu vou rezar", "toque": "Nagô", "youtube_id": "fm_19c3wzqk"},
+                    {"nome": "É Nanã Ê", "toque": "Congo", "youtube_id": "cCn2elGL-a0"},
+                    {"nome": "Atraca atraca que ai vem Nanã", "toque": "Samba", "youtube_id": "SreyfyGTx8s"},
+                    {"nome": "Nanã dona da sabedoria", "toque": "Samba", "youtube_id": "quwk2ilEuKc"},
+                    {"nome": "Xapaná louvação", "toque": "Ijexá", "youtube_id": "FC3ufO0Au9o"},
+                    {"nome": "Vem vem vem, meu Padim Baluaê", "toque": "Ijexá", "youtube_id": "CHrxCUORUNo"},
+                    {"nome": "É Obaluaê", "toque": "Ijexá", "youtube_id": "lHHW-y8lNbw"},
+                    {"nome": "Curador da Alma", "toque": "Ijexá", "youtube_id": "Mgj1VBCCAig"},
+                    {"nome": "Quando era menino", "toque": "Congo", "youtube_id": "G52uD2LYQFo"},
+                    {"nome": "Força sagrada de Obaluaê", "toque": "Congo", "youtube_id": "ELrMT-SfJWQ"},
+                    {"nome": "Que homem é aquele", "toque": "Congo", "youtube_id": "rU0ACs39e0s"},
+                    {"nome": "Sua Benção Atotô (SUBIDA)", "toque": "Samba", "youtube_id": "t4-_kQdTY8g"},
+                    {"nome": "Pai Benedito das Almas", "toque": "Ijexâ", "youtube_id": ""},
+                    {"nome": "Ele é Mirongueiro", "toque": "Samba", "youtube_id": "pofVmWI_B1o"},
+                    {"nome": "Saravá Pai Benedito", "toque": "Nagô", "youtube_id": "a8fSx0p9goo"},
+                    {"nome": "A Vida de um Preto Velho", "toque": "Nagô", "youtube_id": "4pncAHL4EWo"},
+                    {"nome": "Um grito de liberdade e a corrente se quebrou!", "toque": "Ijexâ e Barra Vento", "youtube_id": "UBpM22ii8rQ"},
+                    {"nome": "Pai José de Aruanda", "toque": "Nagô", "youtube_id": "0bzWpDtCvF4"},
+                    {"nome": "Preto Velho vem ajudar", "toque": "Samba", "youtube_id": "g7hAVI0OnVM"},
+                    {"nome": "Ouvi um gemido", "toque": "Ijexá", "youtube_id": "6XDdRJ8O6qU"},
+                    {"nome": "São Benedito a sua casa cheira", "toque": "Nagô", "youtube_id": "VgXNPmmINCs"},
+                    {"nome": "Firma ponto minha gente Preto Velho vai chegar", "toque": "Samba", "youtube_id": "kNgUXTGindg"},
+                    {"nome": "Tudo o que eu peço a vovó ela faz", "toque": "Ijexá", "youtube_id": "BLtSJZ-Y4Lo"},
+                    {"nome": "Ponto Vovó Maria Conga", "toque": "Congo", "youtube_id": ""},
+                    {"nome": "Minhas Almas Santas Almas", "toque": "Congo", "youtube_id": "EQ68UIbFjno"},
+                    {"nome": "Preto velho ta quebrado", "toque": "Samba", "youtube_id": "LdIjj63WboM"},
+                    {"nome": "La Vem Vovó", "toque": "Samba", "youtube_id": "rG_-kZ0hUDY"},
+                    {"nome": "Eu andava perambulando", "toque": "Samba", "youtube_id": "b8gkrAptjvo"},
+                    {"nome": "Pai Guiné de Aruanda", "toque": "Samba", "youtube_id": "o_ui18IJ23Q"},
+                    {"nome": "No tempo do cativeiro", "toque": "Ijexá", "youtube_id": "JZ317RiqpWs"},
+                    {"nome": "Salve Mãe Maria de Minas", "toque": "Ijexá", "youtube_id": "BKWd70qaWDI"},
+                    {"nome": "Bate o tambor na calada da noite", "toque": "Ijexá", "youtube_id": "F4TSbKhp88o"},
+                    {"nome": "Ecoou um canto forte na senzala", "toque": "Ijexá", "youtube_id": "-8Rkq5hZ7s8"},
+                    {"nome": "Saravá pra Vovó Catarina", "toque": "Samba", "youtube_id": "Myc4GXWgmXg"},
+                    {"nome": "Meu pito esta apagado", "toque": "Samba", "youtube_id": "op0Qnc7drwU"},
+                    {"nome": "Foi la no Cruzeiro das Almas", "toque": "Samba", "youtube_id": "2gQJQCd6dmU"},
+                    {"nome": "É Pai Joaquim o Calunga", "toque": "Samba", "youtube_id": "hHC9wpYBbDQ"},
+                    {"nome": "Preto Velho Caminhou", "toque": "Samba", "youtube_id": "kd-ZUjNYjzw"},
+                    {"nome": "Cambinda mamãe êêê", "toque": "Ijexâ", "youtube_id": "zgpJTpaS4PI"},
+                    {"nome": "Preto Velho nunca foi a cidade", "toque": "Ijexâ", "youtube_id": "pVbPFil4-N0"},
+                    {"nome": "A Bengala de Pai Joaquim", "toque": "Ijexâ", "youtube_id": "nlJSZ2Ec4bs"},
+                    {"nome": "Bate tambor la na Angola", "toque": "Ijexâ", "youtube_id": "Ss5aX3kOypk"},
+                    {"nome": "Pai Jerônimo", "toque": "Nagô", "youtube_id": "PKAp6dSa79s"},
+                    {"nome": "Saravá Vovó Joaquina", "toque": "Samba", "youtube_id": "M3YlK7DdsMA"},
+                    {"nome": "Na sua Urucaia", "toque": "Samba", "youtube_id": "h40-PaX8yx0"},
+                    {"nome": "Vovò tem 7 saias a ultima saia tem mironga", "toque": "Samba", "youtube_id": "Jk2gKqeJhmc"},
+                    {"nome": "Pai Joaquim Veio de Angola", "toque": "Samba", "youtube_id": "r75PxPCLYF0"},
+                    {"nome": "Sinhô Macutá", "toque": "Samba", "youtube_id": "L2mxanbbtEI"},
+                    {"nome": "Vovó não quer casca de cocô", "toque": "Samba", "youtube_id": "LWauGnZNBAI"},
+                    {"nome": "Preto Velho orou a Zambi", "toque": "Samba", "youtube_id": "KnoVnkF6KLc"},
+                    {"nome": "Preto na Senzala", "toque": "Samba", "youtube_id": "Zisn7WLwOd0"},
+                    {"nome": "Tia Maria", "toque": "Samba", "youtube_id": "6PpnDnmxcSQ"},
+                    {"nome": "Maria Conga o que é que você quer", "toque": "Samba", "youtube_id": "ic6uNHM79Ps"},
+                    {"nome": "São Benedito a sua casa cheira", "toque": "Nagô", "youtube_id": "VgXNPmmINCs"},
+                    {"nome": "Fio se suncê precisar", "toque": "Samba", "youtube_id": "Ep8W9wiLgXs"},
+                    {"nome": "Saudação ao Povo do Cativeiro", "toque": "Samba", "youtube_id": "0w_p5ATOtXk"},
+                    {"nome": "Nessa casa tem 4 cantos", "toque": "Nagô", "youtube_id": "7181508720101264646"},
+                    {"nome": "A Sineta do Céu bateu (SUBIDA)", "toque": "Ijexâ", "youtube_id": "PHk2wgUkl94"},
+                    {"nome": "Eu vou embora (SUBIDA)", "toque": "Congo", "youtube_id": "uY6mRRFegIk"}
+                ]
+            }
+        ]
+    },
+    {
+        "linha_nome": "Erê",
+        "linha_slug": "ere",
+        "sub_categorias": [
+            {
+                "titulo": "Erê",
+                "pontos": [
+                    {"nome": "Festa no Abaçá", "toque": "Samba", "youtube_id": "2LHrXsXRdWk"},
+                    {"nome": "Brilha estrelinha / tem bala pirulito e chiclete", "toque": "Barra Vento/ Samba", "youtube_id": "cBRhrev8jSc"},
+                    {"nome": "Me manda um balão / Papai Ogum mandou", "toque": "Nagô", "youtube_id": "EkXgoqQ3KSM"},
+                    {"nome": "Criança vem de Aruanda", "toque": "Samba", "youtube_id": "jeZwssHh4rs"},
+                    {"nome": "Beijinho, beijinho como vem beirando o mar!", "toque": "Nagô", "youtube_id": "eYMZQuHB8zo"},
+                    {"nome": "1,2,3,4 / Eu quero doce / Oh Damião", "toque": "Congo", "youtube_id": "FJD5xXiCmb4"},
+                    {"nome": "Erê O Erê, O Erê, onde está o Erê", "toque": "Barra Vento", "youtube_id": "rrevR5mbaYs"},
+                    {"nome": "Titia me deu cocada", "toque": "Samba", "youtube_id": "J7WR5DvISUU"},
+                    {"nome": "Tem bala de coco e peteca", "toque": "Samba", "youtube_id": "BXAGXBc-5zg"},
+                    {"nome": "Joãozinho e Mariazinha", "toque": "Nagô", "youtube_id": "JjQLCXByYNw"},
+                    {"nome": "Cosme Damião, Damião cade Doum", "toque": "Nagô", "youtube_id": "fv707oWS3GQ"},
+                    {"nome": "É com a alegria das Crianças", "toque": "Samba", "youtube_id": "oTZkoiMXlp0"},
+                    {"nome": "O meu Irmão", "toque": "Nagô", "youtube_id": "aZLBs6m5KQM"},
+                    {"nome": "Flechinha", "toque": "Congo", "youtube_id": "LDZMlCdTsZU"},
+                    {"nome": "Iemanja cade Ogum", "toque": "Congo", "youtube_id": "pFy9BXzh-9E"},
+                    {"nome": "Lá no céu tem 3 estrelas", "toque": "Ijexá", "youtube_id": "g8Wvi7kGJow"},
+                    {"nome": "Na Bahia tem um coco", "toque": "Samba", "youtube_id": "z5FGBPHLPbA"},
+                    {"nome": "Fui no jardim colher as rosas", "toque": "Samba", "youtube_id": "rF8zK3fJN8k"},
+                    {"nome": "A estrela e a lua eram duas irmãs", "toque": "Ijexá", "youtube_id": "CDKFLeS--_o"},
+                    {"nome": "Doum é amigo", "toque": "Samba", "youtube_id": "BinKZAkpj-o"},
+                    {"nome": "Ele é pequinininho", "toque": "Samba", "youtube_id": "8zZQ2XoVimw"},
+                    {"nome": "Mas que lindo cavalo branco", "toque": "Samba", "youtube_id": "PRFQvsGHOVI"},
+                    {"nome": "Mariazinha nasceu na beira do rio", "toque": "Samba", "youtube_id": "pMxRHk0m7gE"},
+                    {"nome": "Erê, Criança - Erê", "toque": "Ijexa", "youtube_id": "RbfNFrho4XQ"},
+                    {"nome": "Cosme e Damião a sua casa cheira", "toque": "Ijexa", "youtube_id": "rFp7mZ64nq8"},
+                    {"nome": "Erê está te chamando", "toque": "Samba", "youtube_id": "quVH7tUyq7I"},
+                    {"nome": "Ere esta te chamando", "toque": "Ijexa", "youtube_id": "2zP3lKCniIA"},
+                    {"nome": "Bahia é terra de 2", "toque": "Congo", "youtube_id": "dID5Cwlzf14"},
+                    {"nome": "Ele vem do mar", "toque": "Samba", "youtube_id": "ITgrrT9Xqwg"},
+                    {"nome": "Voa menina voa", "toque": "Samba", "youtube_id": "k9mr2yuyUzI"},
+                    {"nome": "Erê Estrelinha, Levei uma Boneca", "toque": "Nagô", "youtube_id": "qPP3B8C2mCQ"},
+                    {"nome": "Na beira da Praia eu vi", "toque": "Congo", "youtube_id": "wTzc77PwjV8"},
+                    {"nome": "Ibejada já vai embora (subida)", "toque": "Samba", "youtube_id": "XaVo-bnZWcQ"},
+                    {"nome": "A onda vai", "toque": "Samba", "youtube_id": "Ui4KmDxg04A"}
+                ]
+            }
+        ]
+    }
+]
+
+# ---------------------------------
+# PONTOS DE ORIXÁS
+# ---------------------------------
+DADOS_PONTOS_ORIXAS = [
+    {
+        "linha_nome": "Iansa",
+        "linha_slug": "iansa",
+        "sub_categorias": [
+            {
+                "titulo": "Iansã",
+                "pontos": [
+                    {"nome": "Dona dos Ventos", "toque": "Samba", "youtube_id": "VpxWrWs8oBY"},
+                    {"nome": "Me protegi no Bambuzal de Iansã", "toque": "Samba", "youtube_id": "IYOCxbFxBWw"},
+                    {"nome": "Eu vi Iansa Menina", "toque": "Samba", "youtube_id": ""},
+                    {"nome": "O Iansa Menina", "toque": "Congo", "youtube_id": "ymRHUMnAfzg"},
+                    {"nome": "A Guerreira vai Reinar", "toque": "Congo", "youtube_id": "LeeLdl3eK0w"},
+                    {"nome": "Ela é Oya", "toque": "Congo", "youtube_id": "VUVIDNZKCe0"},
+                    {"nome": "Quando Oya me chamou", "toque": "Barra Vento", "youtube_id": "IgQvlYXS4gQ"},
+                    {"nome": "Meu pai que barulho é esse", "toque": "Barra Vento", "youtube_id": "JjOJm7pbPxk"},
+                    {"nome": "Olha Eu", "toque": "Barra Vento", "youtube_id": "VHmQPaxolX0"}
+                ]
+            }
+        ]
+    },
+    {
+        "linha_nome": "Egunitá",
+        "linha_slug": "egunita",
+        "sub_categorias": [
+            {
+                "titulo": "Egunitá",
+                "pontos": [
+                    {"nome": "Egunitá, Orixá de Umbanda", "toque": "Nagô", "youtube_id": ""},
+                    {"nome": "Dona do fogo Descarrega meu Congá", "toque": "Barra Vento", "youtube_id": "k4cJUJN5_1Q"},
+                    {"nome": "Sua Mae Egunitá", "toque": "Samba", "youtube_id": "sNhzrAe2PA4"},
+                    {"nome": "Raio Flamejante", "toque": "Samba", "youtube_id": "W1gMzZ0mzCM"},
+                    {"nome": "Que luz é essa", "toque": "Samba", "youtube_id": "e6SWnZGD90g"},
+                    {"nome": "Brilhou brilhou", "toque": "Ijexá", "youtube_id": "KgYWDEEjSFI"},
+                    {"nome": "Divina Mãe Egunitá", "toque": "Ijexá", "youtube_id": "genglsMqGz0"}
+                ]
+            }
+        ]
+    }
+]
+
+# ---------------------------------
+# PONTOS DE RITUAIS
+# ---------------------------------
+DADOS_PONTOS_RITUAIS = [
+    {
+        "linha_nome": "Defumação",
+        "linha_slug": "defumacao",
+        "sub_categorias": [
+            {
+                "titulo": "Defumação",
+                "pontos": [
+                    {"nome": "9 Anjos no Céu", "toque": "Nagô", "youtube_id": ""},
+                    {"nome": "Eu fui na mata", "toque": "Ijexâ", "youtube_id": ""},
+                    {"nome": "Ervas da Jurema", "toque": "Ijexâ", "youtube_id": ""},
+                    {"nome": "Nossa Senhora Incensou", "toque": "Congou", "youtube_id": ""},
+                    {"nome": "Meu Pai Oxóssi", "toque": "Barra Vento", "youtube_id": ""}
+                ]
+            }
+        ]
+    }
+]
+
+
+# ==============================================================================
+# ROTAS DO FLASK
+# ==============================================================================
+
+# Rota principal para a seção de Pontos de Entidades
+@pontos_bp.route('/entidades')
+def page_entidades():
+    return render_template('pagina_selecao.html',
+                           titulo_pagina="Pontos de Entidades",
+                           linhas=DADOS_PONTOS_ENTIDADES,
+                           url_base='pontos.page_linha_entidade')
+
+# Rota para uma linha de trabalho específica de uma Entidade
+@pontos_bp.route('/entidades/<string:linha_slug>')
+def page_linha_entidade(linha_slug):
+    linha_encontrada = next((item for item in DADOS_PONTOS_ENTIDADES if item["linha_slug"] == linha_slug), None)
+    if not linha_encontrada:
+        abort(404)
+    return render_template('lista_pontos.html', linha=linha_encontrada)
+
+# Rota principal para a seção de Pontos de Orixás
+@pontos_bp.route('/orixas')
+def page_orixas():
+    return render_template('pagina_selecao.html',
+                           titulo_pagina="Pontos de Orixás",
+                           linhas=DADOS_PONTOS_ORIXAS,
+                           url_base='pontos.page_linha_orixa')
+
+# Rota para um Orixá específico
+@pontos_bp.route('/orixas/<string:linha_slug>')
+def page_linha_orixa(linha_slug):
+    linha_encontrada = next((item for item in DADOS_PONTOS_ORIXAS if item["linha_slug"] == linha_slug), None)
+    if not linha_encontrada:
+        abort(404)
+    return render_template('lista_pontos.html', linha=linha_encontrada)
+
+# Rota principal para a seção de Pontos de Rituais
+@pontos_bp.route('/rituais')
+def page_rituais():
+    return render_template('pagina_selecao.html',
+                           titulo_pagina="Pontos de Rituais",
+                           linhas=DADOS_PONTOS_RITUAIS,
+                           url_base='pontos.page_linha_ritual')
+
+# Rota para um Ritual específico
+@pontos_bp.route('/rituais/<string:linha_slug>')
+def page_linha_ritual(linha_slug):
+    linha_encontrada = next((item for item in DADOS_PONTOS_RITUAIS if item["linha_slug"] == linha_slug), None)
+    if not linha_encontrada:
+        abort(404)
+    return render_template('lista_pontos.html', linha=linha_encontrada)
+
+
+# Context processor para injetar as listas de linhas nos templates
+# Útil para construir menus de navegação dinâmicos em todas as páginas
+@pontos_bp.context_processor
+def inject_linhas_para_templates():
+    return dict(
+        TODAS_LINHAS_ENTIDADES=DADOS_PONTOS_ENTIDADES,
+        TODAS_LINHAS_ORIXAS=DADOS_PONTOS_ORIXAS,
+        TODAS_LINHAS_RITUAIS=DADOS_PONTOS_RITUAIS
+    )
